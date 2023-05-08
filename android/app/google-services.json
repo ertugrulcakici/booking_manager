@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "441782521828",
+    "firebase_url": "https://bookingmanager-f3d8e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "bookingmanager-f3d8e",
+    "storage_bucket": "bookingmanager-f3d8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441782521828:android:3ebe6ccab1f71d108781f1",
+        "android_client_info": {
+          "package_name": "ertugrulcakici.bookingmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441782521828-b0hr7cujod3l6dan7ajn8lp6k5nls2ht.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsFx-aCGXHwZYemeC2r633ICgJg9A3aRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441782521828-b0hr7cujod3l6dan7ajn8lp6k5nls2ht.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "441782521828-9996bf0na29aph386f5u8qshdsv2el7u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ertugrulcakici.bookingmanager"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

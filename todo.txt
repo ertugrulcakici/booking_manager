@@ -1,0 +1,29 @@
+tüm form olan sayfaları kontrol et ve eğer dispose edilecek şeyler varsa dispose et
+projenin bir notion sayfasını oluştur
+projeyi gite entegre et ve branchlari ayır. release, develop, enchancement, bugfix, hotfix
+popuphelperleri tek tek bak ve gerekli yerde popup getir.
+
+branch silinince güncellenmiyor. onu düzelt
+google play açıklaması için bir template oluştur
+
+keystore bilgileri
+password: 142536
+what is the name of your organizational unit?
+  [Unknown]:  Ertuğrul Çakıcı
+
+what is the name of your organization?
+    [Unknown]:  Ertuğrul Çakıcı
+
+what is the name of your City or Locality?
+    [Unknown]:  Gaziantep
+
+what is the name of your State or Province?
+    [Unknown]:  Gaziantep
+
+what is the two-letter country code for this unit?
+    [Unknown]:  TR
+
+    Is CN=Ertuğrul Çakıcı, OU=Ertuğrul Çakıcı, O=Ertuğrul Çakıcı, L=Gaziantep, ST=Gaziantep, C=TR correct?
+
+
+ana dizindeki appstore.png yi değiştir

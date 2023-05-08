@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>441782521828-clt0opn7v3dv9cu199mdhc1rdm1p5db8.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.441782521828-clt0opn7v3dv9cu199mdhc1rdm1p5db8</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDEnUEVnIosg5TZxA5lGa9oWx26LQZd0PI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>441782521828</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ertugrulcakici.bookingManager</string>
+	<key>PROJECT_ID</key>
+	<string>bookingmanager-f3d8e</string>
+	<key>STORAGE_BUCKET</key>
+	<string>bookingmanager-f3d8e.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:441782521828:ios:c48bb7c261b7ca678781f1</string>
+	<key>DATABASE_URL</key>
+	<string>https://bookingmanager-f3d8e-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

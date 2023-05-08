@@ -1,0 +1,50 @@
+{
+    "businesses":{
+
+      "uid1" : {
+        "uid":"uid1",
+            "name":"Business 1",
+            "businessLogoUrl":"http://www.google.com", // can be empty
+            "workersUidList":["1","2"],
+            "adminsUidList":["1","2"],
+            "branchesUidList":["1","2"],
+            "ownerUid":"uid1"
+        }
+    },
+    "users": {
+        "uid1": {
+            "uid":"uid1",
+            "relatedBusinessUid":"" // can be empty
+        }
+    },
+    "branches":{
+        "uid1":{
+            "uid":"uid1",
+            "relatedBusinessUid":"uid1",
+            "name":"Branch 1",
+            // "priceUnitType":"hour", // hour or person
+            "unitPrice":60, // price of 1 hour or 1 person
+            "workingHoursList":[
+                "08:00","09:00","10:00","11:00","12:00","13:00"
+            ]
+            // "branchProperties": [
+            //     {
+            //         "uid":"1",
+            //         "label":"video",
+            //         "propertyType":"boolean"
+            //     },
+            //     {
+            //         "uid":"2",
+            //         "label":"Notlar",
+            //         "propertyType":"string"
+            //     },
+            //     {
+            //         "uid":"3",
+            //         "label":"15 yaş üstü sayısı",
+            //         "propertyType":"number"
+            //     }
+            // ]
+        }
+    }
+
+}

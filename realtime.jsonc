@@ -1,0 +1,42 @@
+{
+    "firebase_server":{
+        
+       "business_1":{
+            "sessions": {
+                    "branch_1":{
+                        "2023": {
+                            "01":{
+                                "18":{
+                                    "session1": {
+                                        "addedBy":"userId1",
+                                        "personCount":2,
+                                        "date": "18/01/2023", //dd/mm/yyyy
+                                        "time": "12:00", //hh:mm
+                                        "income":1000,
+                                        "extra":100,
+                                        "discount":100,
+                                        "name":"username",
+                                        "phone":"1234567890"
+                                        // "branch_properties":{
+                                        //     "property_1":true,
+                                        //     "property_2":"value",
+                                        //     "property_3":123.123
+                                        // }
+                                    }
+                                }
+                            }
+                        }
+                    
+                }
+            },
+            "session_logs":{
+                    "branch_1":{
+                        "session_log_1":{}
+                    
+                }
+            },
+            "expanses":{}
+            // "statistics": {}
+       }
+    } 
+}
