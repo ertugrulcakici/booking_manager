@@ -65,12 +65,6 @@ class _SplashViewState extends State<SplashView> {
   Future<void> _init() async {
     if (await AuthService.instance.isLoggedIn) {
       await AuthService.init();
-      // if (AuthService.instance.user!.relatedBusinessUid.isEmpty) {
-      //   NavigationService.toPageAndRemoveUntil(const AccountSetupView());
-      // } else {
-      //   NavigationService.toPageAndRemoveUntil(const HomeView());
-      //   // AuthService.setBusinessDataTracker();
-      // }
     } else {
       NavigationService.toPageAndRemoveUntil(const LoginView());
     }

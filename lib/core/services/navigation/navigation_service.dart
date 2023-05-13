@@ -39,7 +39,6 @@ abstract class NavigationService {
   }
 
   // back if can
-
   static void back({Object? data}) {
     if (navigatorKey.currentState!.canPop()) {
       navigatorKey.currentState!.pop(data);

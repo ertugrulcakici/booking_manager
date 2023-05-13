@@ -9,7 +9,6 @@ class LoginNotifier extends ChangeNotifier {
   Future<void> login() async {
     if (await AuthService.signIn(
         email: formData["email"], password: formData["password"])) {
-      // NavigationService.toPageAndRemoveUntil(const HomeView());
       if (AuthService.instance.user!.relatedBusinessUid.isEmpty) {
         NavigationService.toPageAndRemoveUntil(const AccountSetupView());
       } else {

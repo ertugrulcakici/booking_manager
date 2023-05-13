@@ -84,7 +84,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           icon: const Icon(Icons.remove_red_eye))),
                 ),
                 const SizedBox(height: 16.0),
-                // name textformfield
                 TextFormField(
                   controller: _nameController,
                   onSaved: (newValue) {
@@ -95,7 +94,6 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                     hintText: 'İsim',
                   ),
                 ),
-
                 const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: () {

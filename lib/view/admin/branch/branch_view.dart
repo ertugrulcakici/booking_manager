@@ -66,20 +66,6 @@ class _BranchViewState extends ConsumerState<BranchView> {
               hintText: "Enter branch name",
             ),
           ),
-          // RadioListTile(
-          //     title: const Text("Pricing for per person"),
-          //     value: true,
-          //     groupValue: ref.watch(provider).priceForPerson,
-          //     onChanged: (value) {
-          //       ref.read(provider).priceForPerson = true;
-          //     }),
-          // RadioListTile(
-          //     title: const Text("Pricing for per hour"),
-          //     value: false,
-          //     groupValue: ref.watch(provider).priceForPerson,
-          //     onChanged: (value) {
-          //       ref.read(provider).priceForPerson = false;
-          //     }),
           TextFormField(
             onSaved: (newValue) {
               ref.read(provider).formData["unitPrice"] = num.parse(newValue!);
@@ -139,47 +125,6 @@ class _BranchViewState extends ConsumerState<BranchView> {
               },
             ),
           ),
-
-          // ListView.builder(
-          //   shrinkWrap: true,
-          //   itemCount: ref.watch(provider).formData["branchProperties"].length,
-          //   itemBuilder: (context, index) {
-          //     BranchProperty branchProperty =
-          //         ref.watch(provider).formData["branchProperties"][index];
-          //     String typeText = "";
-          //     switch (branchProperty.propertyType) {
-          //       case "boolean":
-          //         typeText = "True/False";
-          //         break;
-          //       case "number":
-          //         typeText = "Number";
-          //         break;
-          //       case "string":
-          //         typeText = "Text";
-          //         break;
-          //       default:
-          //     }
-          //     return ListTile(
-          //         title: Text(branchProperty.label),
-          //         subtitle: Text("Type: $typeText"),
-          //         leading: IconButton(
-          //           icon: const Icon(Icons.delete),
-          //           onPressed: () {
-          //             setState(() {
-          //               ref
-          //                   .read(provider)
-          //                   .formData["branchProperties"]
-          //                   .removeAt(index);
-          //             });
-          //           },
-          //         ));
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text("Add branch property"),
-          //   onTap: () {},
-          //   trailing: const Icon(Icons.add),
-          // )
         ],
       ),
     );
@@ -210,22 +155,7 @@ class _BranchViewState extends ConsumerState<BranchView> {
     }
   }
 
-  Future<void> addBranchProperty() async {
-    // Map<String, String>? result = await showDialog<Map<String, String>?>(
-    //     context: context,
-    //     builder: (context) {
-    //       return const _BranchPropertyDialog();
-    //     });
-    // if (result != null) {
-    //   ref
-    //       .read(provider)
-    //       .formData["branchProperties"]
-    //       .add(BranchProperty.fromJson(result));
-    //   setState(() {
-    //     log("Set state executed for branch property");
-    //   });
-    // }
-  }
+  Future<void> addBranchProperty() async {}
 }
 
 class _TimePickerDialog extends StatefulWidget {
@@ -279,69 +209,3 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
     );
   }
 }
-
-// class _BranchPropertyDialog extends StatefulWidget {
-//   const _BranchPropertyDialog();
-
-//   @override
-//   State<_BranchPropertyDialog> createState() => __BranchPropertyDialogState();
-// }
-
-// class __BranchPropertyDialogState extends State<_BranchPropertyDialog> {
-//   Map<String, String> branchProperty = {};
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//       title: const Text("Add branch property"),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           TextField(
-//             decoration: const InputDecoration(
-//               labelText: "Label",
-//             ),
-//             onChanged: (value) {
-//               branchProperty["label"] = value;
-//             },
-//           ),
-//           const SizedBox(height: 16),
-//           DropdownButtonFormField<String>(
-//             decoration: const InputDecoration(
-//               labelText: "Type",
-//             ),
-//             items: const [
-//               DropdownMenuItem(
-//                 value: "string",
-//                 child: Text("Text"),
-//               ),
-//               DropdownMenuItem(
-//                 value: "number",
-//                 child: Text("Number"),
-//               ),
-//               DropdownMenuItem(
-//                 value: "boolean",
-//                 child: Text("True/False"),
-//               ),
-//             ],
-//             onChanged: (value) {
-//               branchProperty["propertyType"] = value!;
-//             },
-//           ),
-//         ],
-//       ),
-//       actions: [
-//         TextButton(
-//             onPressed: () {
-//               Navigator.pop(context, null);
-//             },
-//             child: const Text("Cancel")),
-//         TextButton(
-//             onPressed: () {
-//               Navigator.pop(context, branchProperty);
-//             },
-//             child: const Text("Add")),
-//       ],
-//     );
-//   }
-// }

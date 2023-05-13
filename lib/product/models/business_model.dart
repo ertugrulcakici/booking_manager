@@ -1,6 +1,5 @@
 import 'package:bookingmanager/core/services/cache/cache_service.dart';
 import 'package:bookingmanager/product/constants/cache_constants.dart';
-import 'package:bookingmanager/product/models/invitation_model.dart';
 import 'package:bookingmanager/product/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -83,23 +82,4 @@ class BusinessModel extends HiveObject {
       rethrow;
     }
   }
-
-  /// fetch the branches if branches are null
-  // Future<void> fetchBranches() async {
-  //   try {
-  //     branches.clear();
-  //     for (var branchUid in branchesUidList) {
-  //       DocumentSnapshot branchDoc = await FirebaseFirestore.instance
-  //           .collection("branches")
-  //           .doc(branchUid)
-  //           .get();
-  //       if (branchDoc.exists) {
-  //         branches.add(
-  //             BranchModel.fromJson(branchDoc.data() as Map<String, dynamic>));
-  //       }
-  //     }
-  //   } catch (e) {
-  //     throw Exception("Branches couldn't be fetched : $e");
-  //   }
-  // }
 }

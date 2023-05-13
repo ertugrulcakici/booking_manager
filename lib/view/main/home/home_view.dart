@@ -63,13 +63,6 @@ class _HomeViewState extends ConsumerState<HomeView>
     }
 
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     log(ref.watch(provider).activeBusiness.toString());
-      //     log(ref.watch(provider).branches.length.toString());
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
       drawer: _drawer(),
       appBar: _appBar(),
       body: _content(),
@@ -113,32 +106,9 @@ class _HomeViewState extends ConsumerState<HomeView>
     // header
     options.add(DrawerHeader(
       child: Center(child: Text(AuthService.instance.user!.name)),
-      // Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     const SizedBox(
-      //       height: 50,
-      //       width: 50,
-      //       child: Placeholder(
-      //         fallbackHeight: 50,
-      //         fallbackWidth: 50,
-      //         strokeWidth: 0.5,
-      //       ),
-      //     ),
-      //     const SizedBox(height: 10),
-      //     Text(AuthService.instance.firebaseUser!.displayName.toString())
-      //   ],
-      // ),
     ));
     // middle options
     List<Widget> middleOptions = [];
-    // add expanse
-    // middleOptions.add(ListTile(
-    //   title: TextButton.icon(
-    //       icon: const Icon(Icons.add),
-    //       onPressed: () => NavigationService.toPage(const AddExpanseView()),
-    //       label: const Text("Add expanse")),
-    // ));
 
     // business settings
     if (ref

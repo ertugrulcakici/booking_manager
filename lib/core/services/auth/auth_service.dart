@@ -13,9 +13,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   static bool _inited = false;
   static AuthService get instance => _instance;
-  // static AuthService get instance => AuthService._inited
-  //     ? _instance
-  //     : throw Exception("AuthService not inited");
   static final AuthService _instance = AuthService._();
   AuthService._();
 
@@ -26,10 +23,8 @@ class AuthService {
   static Future<void> init() async {
     if (_inited) return;
     _inited = true;
-    _firebaseUserChangesSubscription = FirebaseAuth.instance
-        .userChanges()
-        // .skip(1)
-        .listen((User? user) async {
+    _firebaseUserChangesSubscription =
+        FirebaseAuth.instance.userChanges().listen((User? user) async {
       if (user == null) {
         await AuthService.signOut(signOutFirebase: false);
       }
@@ -38,7 +33,6 @@ class AuthService {
         .collection("users")
         .doc(AuthService.instance.firebaseUser!.uid)
         .snapshots()
-        // .skip(1)
         .listen((event) {
       if (event.exists) {
         log("tetiklendi");
