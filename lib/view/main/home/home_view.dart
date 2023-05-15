@@ -9,11 +9,12 @@ import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/branches/branches_view.dart';
 import 'package:bookingmanager/view/admin/expanses/expanses_view.dart';
-import 'package:bookingmanager/view/admin/logs/logs_view.dart';
+import 'package:bookingmanager/view/admin/session_history/session_history_view.dart';
 import 'package:bookingmanager/view/admin/statistics/statistics_view.dart';
 import 'package:bookingmanager/view/admin/workers/workers_view.dart';
 import 'package:bookingmanager/view/main/home/home_notifier.dart';
 import 'package:bookingmanager/view/main/session/session_view.dart';
+import 'package:bookingmanager/view/settings/settings_view.dart';
 import 'package:bookingmanager/view/user/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,6 +110,14 @@ class _HomeViewState extends ConsumerState<HomeView>
     ));
     // middle options
     List<Widget> middleOptions = [];
+    middleOptions.add(
+      ListTile(
+        title: TextButton.icon(
+            icon: const Icon(Icons.add),
+            onPressed: _addExpansePopup,
+            label: const Text("Add Expanse")),
+      ),
+    );
 
     // business settings
     if (ref
@@ -116,31 +125,37 @@ class _HomeViewState extends ConsumerState<HomeView>
         .activeBusiness!
         .adminsUidList
         .contains(AuthService.instance.user!.uid)) {
-      middleOptions.add(ExpansionTile(
-        leading: const Icon(Icons.business),
-        title: const Text("Business management"),
-        children: [
-          ListTile(
-              title: const Text("Expanses"),
-              onTap: () => NavigationService.toPage(const ExpansesView()),
-              leading: const Icon(Icons.money)),
-          ListTile(
-              title: const Text("Statistics"),
-              onTap: () => NavigationService.toPage(const StatisticsView()),
-              leading: const Icon(Icons.bar_chart)),
-          ListTile(
-              title: const Text("Workers"),
-              onTap: () => NavigationService.toPage(const WorkersView()),
-              leading: const Icon(Icons.people)),
-          ListTile(
-              title: const Text("Branches"),
-              onTap: () => NavigationService.toPage(const BranchesView()),
-              leading: const Icon(Icons.business)),
-          ListTile(
-              title: const Text("Logs"),
-              onTap: () => NavigationService.toPage(const LogsView()),
-              leading: const Icon(Icons.history)),
-        ],
+      middleOptions.add(Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: ExpansionTile(
+          leading: const Icon(Icons.business),
+          title: const Text("Business management"),
+          children: [
+            ListTile(
+                title: const Text("Expanses"),
+                onTap: () => NavigationService.toPage(const ExpansesView()),
+                leading: const Icon(Icons.money)),
+            ListTile(
+                title: const Text("Statistics"),
+                onTap: () => NavigationService.toPage(const StatisticsView()),
+                leading: const Icon(Icons.bar_chart)),
+            ListTile(
+                title: const Text("Workers"),
+                onTap: () => NavigationService.toPage(const WorkersView()),
+                leading: const Icon(Icons.people)),
+            ListTile(
+                title: const Text("Branches"),
+                onTap: () => NavigationService.toPage(const BranchesView()),
+                leading: const Icon(Icons.business)),
+            ListTile(
+                title: const Text("Logs"),
+                onTap: () =>
+                    NavigationService.toPage(const SessionHistoryView()),
+                leading: const Icon(Icons.history)),
+          ],
+        ),
       ));
     }
     options.add(Expanded(
@@ -158,6 +173,17 @@ class _HomeViewState extends ConsumerState<HomeView>
           },
           label: const Text("Profile")),
     ));
+    options.add(
+      ListTile(
+        title: TextButton.icon(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              NavigationService.toPage(const SettingsView());
+            },
+            label: const Text("Settings")),
+        onTap: AuthService.signOut,
+      ),
+    );
     options.add(ListTile(
         title: TextButton.icon(
             icon: const Icon(Icons.exit_to_app),
@@ -341,4 +367,8 @@ class _HomeViewState extends ConsumerState<HomeView>
 
   @override
   bool get wantKeepAlive => true;
+
+  Future<void> _addExpansePopup() async {
+    // TODO: add expanse popup
+  }
 }
