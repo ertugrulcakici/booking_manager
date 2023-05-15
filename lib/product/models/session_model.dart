@@ -14,9 +14,9 @@ class SessionModel extends HiveObject {
   @HiveField(3)
   String time;
   @HiveField(4)
-  double extra = 0;
+  double extra;
   @HiveField(5)
-  double discount = 0;
+  double discount;
   @HiveField(6)
   String name;
   @HiveField(7)
@@ -27,6 +27,10 @@ class SessionModel extends HiveObject {
   String note;
   @HiveField(10)
   String uid;
+  @HiveField(11)
+  double subTotal;
+  @HiveField(12)
+  double total;
 
   int get timestamp => DateTime(
         int.parse(date.split("/")[0]),
@@ -48,6 +52,8 @@ class SessionModel extends HiveObject {
     required this.branchUid,
     this.note = "not yok",
     required this.uid,
+    this.subTotal = 0,
+    this.total = 0,
   });
 
   factory SessionModel.fromJson(Map<String, dynamic> json) {
@@ -56,13 +62,15 @@ class SessionModel extends HiveObject {
       personCount: json['personCount'],
       date: json['date'],
       time: json['time'],
-      extra: json['extra'],
-      discount: json['discount'],
+      extra: json['extra'] ?? 0,
+      discount: json['discount'] ?? 0,
       name: json['name'],
       phone: json['phone'],
       branchUid: json['branchUid'],
       note: json['note'],
       uid: json['uid'],
+      subTotal: json['subTotal'] ?? 0,
+      total: json['total'] ?? 0,
     );
   }
 
@@ -82,6 +90,19 @@ class SessionModel extends HiveObject {
 
   @override
   String toString() {
-    return 'SessionModel{addedBy: $addedBy, personCount: $personCount, date: $date, time: $time, extra: $extra, discount: $discount, name: $name, phone: $phone, branchUid: $branchUid, note: $note, uid: $uid}';
+    return 'SessionModel{addedBy: $addedBy, personCount: $personCount, date: $date, time: $time, extra: $extra, discount: $discount, name: $name, phone: $phone, branchUid: $branchUid, note: $note, uid: $uid, subTotal: $subTotal, total: $total}';
+  }
+
+  isAllFieldsSame(SessionModel sessionModel) {
+    return addedBy == sessionModel.addedBy &&
+        personCount == sessionModel.personCount &&
+        date == sessionModel.date &&
+        time == sessionModel.time &&
+        extra == sessionModel.extra &&
+        discount == sessionModel.discount &&
+        name == sessionModel.name &&
+        phone == sessionModel.phone &&
+        branchUid == sessionModel.branchUid &&
+        note == sessionModel.note;
   }
 }
