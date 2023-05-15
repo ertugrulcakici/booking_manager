@@ -1,5 +1,6 @@
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
 import 'package:bookingmanager/view/main/session/session_notifier.dart';
@@ -270,12 +271,30 @@ class _SessionViewState extends ConsumerState<SessionView> {
         heroTag: "save",
         key: const Key("save"),
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _formKey.currentState!.save();
-            ref.read(provider).save();
+          if (widget.sessionModel != null) {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("Are you sure?"),
+                    content: const Text(
+                        "You are about to update this session. Are you sure?"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            NavigationService.back();
+                          },
+                          child: const Text("Cancel")),
+                      TextButton(
+                          onPressed: () {
+                            _save();
+                          },
+                          child: const Text("Yes")),
+                    ],
+                  );
+                });
           } else {
-            PopupHelper.instance
-                .showSnackBar(message: "Please fill all fields", error: true);
+            _save();
           }
         },
         label: const Text("Save"),
@@ -294,5 +313,15 @@ class _SessionViewState extends ConsumerState<SessionView> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: fabWidgets,
     );
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ref.read(provider).save();
+    } else {
+      PopupHelper.instance
+          .showSnackBar(message: "Please fill all fields", error: true);
+    }
   }
 }
