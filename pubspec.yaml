@@ -51,6 +51,7 @@ dependencies:
   flutter_slidable: ^3.0.0
   easy_localization: ^3.0.1
   easy_localization_generator: ^0.3.0
+  dropdown_textfield: ^1.0.8
 
 dev_dependencies:
   flutter_test:
