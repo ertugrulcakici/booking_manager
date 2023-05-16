@@ -31,7 +31,7 @@ class _SplashViewState extends State<SplashView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              'assets/images/logo.jpg',
+              'assets/images/logo.png',
               width: 120.0,
             ),
             const SizedBox(height: 24.0),

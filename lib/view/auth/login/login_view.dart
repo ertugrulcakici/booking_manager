@@ -63,7 +63,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 32),
       child: Image.asset(
-        'assets/images/logo.jpg',
+        'assets/images/logo.png',
         width: 150,
       ),
     );
