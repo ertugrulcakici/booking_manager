@@ -28,4 +28,29 @@ class PopupHelper {
       ),
     );
   }
+
+  Future<void> showOkCancelDialog({
+    required String title,
+    required String content,
+    required VoidCallback onOk,
+    required VoidCallback onCancel,
+  }) async {
+    await showDialog(
+      context: _context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          TextButton(
+            onPressed: onCancel,
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: onOk,
+            child: const Text("Ok"),
+          ),
+        ],
+      ),
+    );
+  }
 }

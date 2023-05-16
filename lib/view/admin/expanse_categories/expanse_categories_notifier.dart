@@ -1,4 +1,6 @@
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/expanse_category_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,11 +58,43 @@ class ExpanseCategoriesNotifier extends ChangeNotifier
   Future<void> deleteCategory(ExpanseCategoryModel category) async {
     try {
       isLoading = true;
-      await FirebaseFirestore.instance
-          .collection("expanse_categories")
-          .doc(category.uid)
-          .delete();
-      categories.remove(category);
+
+      // check if category is used in expanses
+      final expansesSnapshot = await FirebaseFirestore.instance
+          .collection("expanses")
+          .where("categoryUid", isEqualTo: category.uid)
+          .limit(1)
+          .get();
+
+      await PopupHelper.instance.showOkCancelDialog(
+          title: "Are you sure you want to delete this category?",
+          content: "All expanses related to this category will be deleted too.",
+          onOk: () async {
+            final batch = FirebaseFirestore.instance.batch();
+            // delete category
+            batch.delete(FirebaseFirestore.instance
+                .collection("expanse_categories")
+                .doc(category.uid));
+            categories.remove(category);
+
+            // delete expanses
+            final allExpanses = await FirebaseFirestore.instance
+                .collection("expanses")
+                .where("categoryUid", isEqualTo: category.uid)
+                .get();
+            for (var queryDoc in allExpanses.docs) {
+              batch.delete(queryDoc.reference);
+            }
+
+            // commit batch
+            await batch.commit();
+            PopupHelper.instance
+                .showSnackBar(message: "Category deleted successfully");
+            NavigationService.back();
+          },
+          onCancel: () {
+            NavigationService.back();
+          });
     } catch (e) {
       errorMessage = e.toString();
     } finally {

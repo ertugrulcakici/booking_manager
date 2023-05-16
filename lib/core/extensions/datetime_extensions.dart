@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 extension DateTimeExtensionsForDateTime on DateTime {
+  DateTime dayBeginning() {
+    return DateTime(year, month, day);
+  }
+
+  DateTime dayEnding() {
+    return DateTime(year, month, day + 1);
+  }
+
+  int get timestamp => millisecondsSinceEpoch;
+
   String get formattedDate {
     String day = this.day.toString();
     String month = this.month.toString();
@@ -41,6 +51,21 @@ extension DateTimeExtensionsForDateTime on DateTime {
     }
 
     return "$day/$month/$year $hour:$minute";
+  }
+
+  String get formattedTime {
+    String hour = this.hour.toString();
+    String minute = this.minute.toString();
+
+    if (this.hour < 10) {
+      hour = "0$hour";
+    }
+
+    if (this.minute < 10) {
+      minute = "0$minute";
+    }
+
+    return "$hour:$minute";
   }
 
   String get formattedDateReverse {

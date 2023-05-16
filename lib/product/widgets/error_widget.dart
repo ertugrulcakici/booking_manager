@@ -1,4 +1,6 @@
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String errorMessage;
@@ -12,7 +14,13 @@ class CustomErrorWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(errorMessage),
+          InkWell(
+              onLongPress: () {
+                Clipboard.setData(ClipboardData(text: errorMessage));
+                PopupHelper.instance
+                    .showSnackBar(message: "Copied to clipboard");
+              },
+              child: Text(errorMessage)),
           ElevatedButton(
             onPressed: onPressed,
             child: const Text("Try again"),

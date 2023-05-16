@@ -38,10 +38,6 @@ class _ExpanseCategoriesViewState extends ConsumerState<ExpanseCategoriesView> {
   }
 
   Widget _body() {
-    if (ref.watch(provider).isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
     if (ref.watch(provider).isError) {
       return CustomErrorWidget(
           errorMessage: ref.watch(provider).errorMessage,

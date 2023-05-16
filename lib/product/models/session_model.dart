@@ -10,27 +10,27 @@ class SessionModel extends HiveObject {
   @HiveField(1)
   int personCount;
   @HiveField(2)
-  String date;
-  @HiveField(3)
-  String time;
-  @HiveField(4)
   double extra;
-  @HiveField(5)
+  @HiveField(3)
   double discount;
-  @HiveField(6)
+  @HiveField(4)
   String name;
-  @HiveField(7)
+  @HiveField(5)
   String phone;
-  @HiveField(8)
+  @HiveField(6)
   String branchUid;
-  @HiveField(9)
+  @HiveField(7)
   String note;
-  @HiveField(10)
+  @HiveField(8)
   String uid;
-  @HiveField(11)
+  @HiveField(9)
   double subTotal;
-  @HiveField(12)
+  @HiveField(10)
   double total;
+  @HiveField(11)
+  String date;
+  @HiveField(12)
+  String time;
 
   int get timestamp => DateTime(
         int.parse(date.split("/")[0]),
@@ -86,11 +86,13 @@ class SessionModel extends HiveObject {
         'branchUid': branchUid,
         'note': note,
         'uid': uid,
+        'subTotal': subTotal,
+        'total': total,
       };
 
   @override
   String toString() {
-    return 'SessionModel{addedBy: $addedBy, personCount: $personCount, date: $date, time: $time, extra: $extra, discount: $discount, name: $name, phone: $phone, branchUid: $branchUid, note: $note, uid: $uid, subTotal: $subTotal, total: $total}';
+    return toJson().toString();
   }
 
   isAllFieldsSame(SessionModel sessionModel) {
@@ -103,6 +105,9 @@ class SessionModel extends HiveObject {
         name == sessionModel.name &&
         phone == sessionModel.phone &&
         branchUid == sessionModel.branchUid &&
+        total == sessionModel.total &&
+        subTotal == sessionModel.subTotal &&
+        uid == sessionModel.uid &&
         note == sessionModel.note;
   }
 }

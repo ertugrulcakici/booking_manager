@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
@@ -35,9 +34,7 @@ class AuthService {
         .snapshots()
         .listen((event) {
       if (event.exists) {
-        log("tetiklendi");
         AuthService.instance._user = UserModel.fromJson(event.data()!);
-        log(AuthService.instance._user!.toString());
         if (AuthService.instance._user!.relatedBusinessUid.isEmpty) {
           NavigationService.toPageAndRemoveUntil(const AccountSetupView());
         } else {

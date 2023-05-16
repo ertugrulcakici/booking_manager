@@ -79,7 +79,7 @@ class _CategoryLineWidgetState extends State<CategoryLineWidget> {
                       },
                       icon: const Icon(Icons.edit)),
               IconButton(
-                  onPressed: _deletePopup, icon: const Icon(Icons.delete)),
+                  onPressed: widget.onDelete, icon: const Icon(Icons.delete)),
             ],
           ),
         ),
@@ -99,30 +99,5 @@ class _CategoryLineWidgetState extends State<CategoryLineWidget> {
       focused = false;
     });
     focusNode.unfocus();
-  }
-
-  void _deletePopup() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Delete category"),
-            content:
-                const Text("Are you sure you want to delete this category?"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("Cancel")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    widget.onDelete();
-                  },
-                  child: const Text("Delete")),
-            ],
-          );
-        });
   }
 }

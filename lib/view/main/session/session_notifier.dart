@@ -65,8 +65,7 @@ class SessionNotifier extends ChangeNotifier {
             timestamp: DateTime.now().millisecondsSinceEpoch,
             originalSession: sessionModel!,
             updatedSession: newSessionModel,
-            logType: SessionHistoryType.updated,
-            branchUid: selectedBranch.uid,
+            historyType: SessionHistoryType.updated,
             relatedBusinessUid: selectedBranch.relatedBusinessUid,
             by: AuthService.instance.user!.uid);
 
@@ -85,6 +84,7 @@ class SessionNotifier extends ChangeNotifier {
       }
 
       NavigationService.back();
+      NavigationService.back();
     } catch (e) {
       PopupHelper.instance.showSnackBar(
           message: "Session could not be saved due to an error: \n$e");
@@ -102,8 +102,7 @@ class SessionNotifier extends ChangeNotifier {
       SessionHistoryModel sessionLogModel = SessionHistoryModel(
         timestamp: DateTime.now().millisecondsSinceEpoch,
         originalSession: sessionModel!,
-        logType: SessionHistoryType.deleted,
-        branchUid: selectedBranch.uid,
+        historyType: SessionHistoryType.deleted,
         relatedBusinessUid: selectedBranch.relatedBusinessUid,
         by: AuthService.instance.user!.uid,
       );

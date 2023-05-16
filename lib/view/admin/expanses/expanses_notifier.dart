@@ -1,3 +1,4 @@
+import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/expanse_category_model.dart';
@@ -56,9 +57,10 @@ class ExpansesNotifier extends ChangeNotifier with LoadingNotifierMixin {
           .collection("expanses")
           .where("relatedBusinessUid",
               isEqualTo: AuthService.instance.user!.relatedBusinessUid)
-          .where("timestamp", isGreaterThanOrEqualTo: selectedDate)
-          .where("timestamp",
-              isLessThanOrEqualTo: selectedDate.add(const Duration(days: 1)))
+          .where("addedTime",
+              isGreaterThanOrEqualTo: selectedDate.dayBeginning().timestamp)
+          .where("addedTime",
+              isLessThanOrEqualTo: selectedDate.dayEnding().timestamp)
           .get();
       expanses = expansesSnapshot.docs
           .map((e) => ExpanseModel.fromJson(e.data()))

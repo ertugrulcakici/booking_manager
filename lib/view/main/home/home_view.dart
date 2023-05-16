@@ -10,12 +10,11 @@ import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/branches/branches_view.dart';
 import 'package:bookingmanager/view/admin/expanses/expanses_view.dart';
 import 'package:bookingmanager/view/admin/session_history/session_history_view.dart';
-import 'package:bookingmanager/view/admin/statistics/statistics_view.dart';
 import 'package:bookingmanager/view/admin/workers/workers_view.dart';
+import 'package:bookingmanager/view/main/add_expanse/add_expanse_view.dart';
 import 'package:bookingmanager/view/main/home/home_notifier.dart';
 import 'package:bookingmanager/view/main/session/session_view.dart';
 import 'package:bookingmanager/view/settings/settings_view.dart';
-import 'package:bookingmanager/view/user/profile/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -30,6 +29,7 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<HomeView>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final ChangeNotifierProvider<HomeNotifier> provider;
+
   @override
   void initState() {
     provider = ChangeNotifierProvider((ref) => HomeNotifier(this));
@@ -114,7 +114,9 @@ class _HomeViewState extends ConsumerState<HomeView>
       ListTile(
         title: TextButton.icon(
             icon: const Icon(Icons.add),
-            onPressed: _addExpansePopup,
+            onPressed: () {
+              NavigationService.toPage(const AddExpanseView());
+            },
             label: const Text("Add Expanse")),
       ),
     );
@@ -137,10 +139,10 @@ class _HomeViewState extends ConsumerState<HomeView>
                 title: const Text("Expanses"),
                 onTap: () => NavigationService.toPage(const ExpansesView()),
                 leading: const Icon(Icons.money)),
-            ListTile(
-                title: const Text("Statistics"),
-                onTap: () => NavigationService.toPage(const StatisticsView()),
-                leading: const Icon(Icons.bar_chart)),
+            // ListTile(
+            //     title: const Text("Statistics"),
+            //     onTap: () => NavigationService.toPage(const StatisticsView()),
+            //     leading: const Icon(Icons.bar_chart)),
             ListTile(
                 title: const Text("Workers"),
                 onTap: () => NavigationService.toPage(const WorkersView()),
@@ -150,9 +152,10 @@ class _HomeViewState extends ConsumerState<HomeView>
                 onTap: () => NavigationService.toPage(const BranchesView()),
                 leading: const Icon(Icons.business)),
             ListTile(
-                title: const Text("Logs"),
-                onTap: () =>
-                    NavigationService.toPage(const SessionHistoryView()),
+                title: const Text("Session History"),
+                onTap: () => NavigationService.toPage(SessionHistoryView(
+                    activeBusiness: ref.watch(provider).activeBusiness!,
+                    branches: ref.watch(provider).branches)),
                 leading: const Icon(Icons.history)),
           ],
         ),
@@ -165,14 +168,14 @@ class _HomeViewState extends ConsumerState<HomeView>
       ),
     ));
     // bottom options
-    options.add(ListTile(
-      title: TextButton.icon(
-          icon: const Icon(Icons.person),
-          onPressed: () {
-            NavigationService.toPage(const ProfileView());
-          },
-          label: const Text("Profile")),
-    ));
+    // options.add(ListTile(
+    //   title: TextButton.icon(
+    //       icon: const Icon(Icons.person),
+    //       onPressed: () {
+    //         NavigationService.toPage(const ProfileView());
+    //       },
+    //       label: const Text("Profile")),
+    // ));
     options.add(
       ListTile(
         title: TextButton.icon(
@@ -367,8 +370,4 @@ class _HomeViewState extends ConsumerState<HomeView>
 
   @override
   bool get wantKeepAlive => true;
-
-  Future<void> _addExpansePopup() async {
-    // TODO: add expanse popup
-  }
 }

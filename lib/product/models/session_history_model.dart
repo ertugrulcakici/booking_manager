@@ -8,8 +8,7 @@ class SessionHistoryModel {
   String get uid => _uid ?? timestamp.toString();
   SessionModel originalSession;
   SessionModel? updatedSession;
-  SessionHistoryType logType;
-  String branchUid;
+  SessionHistoryType historyType;
   String relatedBusinessUid;
   String by;
 
@@ -18,8 +17,7 @@ class SessionHistoryModel {
     required this.originalSession,
     this.updatedSession,
     String? uid,
-    required this.logType,
-    required this.branchUid,
+    required this.historyType,
     required this.relatedBusinessUid,
     required this.by,
   }) {
@@ -34,9 +32,8 @@ class SessionHistoryModel {
       updatedSession: json['updatedSession'] == null
           ? null
           : SessionModel.fromJson(json['updatedSession']),
-      logType: SessionHistoryType.values
-          .firstWhere((element) => element.toString() == json['logType']),
-      branchUid: json['branchUid'],
+      historyType: SessionHistoryType.values
+          .firstWhere((element) => element.toString() == json['historyType']),
       relatedBusinessUid: json['relatedBusinessUid'],
       by: json['by'],
     );
@@ -48,8 +45,7 @@ class SessionHistoryModel {
     data['uid'] = uid;
     data['originalSession'] = originalSession.toJson();
     data['updatedSession'] = updatedSession?.toJson();
-    data['logType'] = logType.toString();
-    data['branchUid'] = branchUid;
+    data['historyType'] = historyType.toString();
     data['relatedBusinessUid'] = relatedBusinessUid;
     data['by'] = by;
     return data;
@@ -57,6 +53,6 @@ class SessionHistoryModel {
 
   @override
   String toString() {
-    return 'SessionLogModel{timestamp: $timestamp, uid: $uid, originalSession: $originalSession, updatedSession: $updatedSession, logType: $logType, by: $by}';
+    return 'SessionHistoryModel{timestamp: $timestamp, uid: $uid, originalSession: $originalSession, updatedSession: $updatedSession, historyType: $historyType, relatedBusinessUid: $relatedBusinessUid, by: $by}';
   }
 }
