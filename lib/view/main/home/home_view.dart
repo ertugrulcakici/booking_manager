@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
@@ -15,6 +16,7 @@ import 'package:bookingmanager/view/main/add_expanse/add_expanse_view.dart';
 import 'package:bookingmanager/view/main/home/home_notifier.dart';
 import 'package:bookingmanager/view/main/session/session_view.dart';
 import 'package:bookingmanager/view/settings/settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -117,7 +119,7 @@ class _HomeViewState extends ConsumerState<HomeView>
             onPressed: () {
               NavigationService.toPage(const AddExpanseView());
             },
-            label: const Text("Add Expanse")),
+            label: Text(LocaleKeys.home_add_expanse.tr())),
       ),
     );
 
@@ -133,10 +135,10 @@ class _HomeViewState extends ConsumerState<HomeView>
         ),
         child: ExpansionTile(
           leading: const Icon(Icons.business),
-          title: const Text("Business management"),
+          title: Text(LocaleKeys.home_business_management.tr()),
           children: [
             ListTile(
-                title: const Text("Expanses"),
+                title: Text(LocaleKeys.home_expanses.tr()),
                 onTap: () => NavigationService.toPage(const ExpansesView()),
                 leading: const Icon(Icons.money)),
             // ListTile(
@@ -144,18 +146,18 @@ class _HomeViewState extends ConsumerState<HomeView>
             //     onTap: () => NavigationService.toPage(const StatisticsView()),
             //     leading: const Icon(Icons.bar_chart)),
             ListTile(
-                title: const Text("Workers"),
+                title: Text(LocaleKeys.home_workers.tr()),
                 onTap: () => NavigationService.toPage(const WorkersView()),
                 leading: const Icon(Icons.people)),
             ListTile(
-                title: const Text("Branches"),
+                title: Text(LocaleKeys.home_branches.tr()),
                 onTap: () => NavigationService.toPage(const BranchesView()),
                 leading: const Icon(Icons.business)),
             ListTile(
-                title: const Text("Session History"),
+                title: Text(LocaleKeys.home_session_history.tr()),
                 onTap: () => NavigationService.toPage(SessionHistoryView(
                     activeBusiness: ref.watch(provider).activeBusiness!,
-                    branches: ref.watch(provider).branches)),
+                    branches: ref.watch(provider).activeBusiness!.branches)),
                 leading: const Icon(Icons.history)),
           ],
         ),
@@ -174,7 +176,7 @@ class _HomeViewState extends ConsumerState<HomeView>
     //       onPressed: () {
     //         NavigationService.toPage(const ProfileView());
     //       },
-    //       label: const Text("Profile")),
+    //       label: Text(LocaleKeys.home_profile.tr())),
     // ));
     options.add(
       ListTile(
@@ -183,7 +185,7 @@ class _HomeViewState extends ConsumerState<HomeView>
             onPressed: () {
               NavigationService.toPage(const SettingsView());
             },
-            label: const Text("Settings")),
+            label: Text(LocaleKeys.home_settings.tr())),
         onTap: AuthService.signOut,
       ),
     );
@@ -191,15 +193,15 @@ class _HomeViewState extends ConsumerState<HomeView>
         title: TextButton.icon(
             icon: const Icon(Icons.exit_to_app),
             onPressed: AuthService.signOut,
-            label: const Text("Exit")),
+            label: Text(LocaleKeys.home_exit.tr())),
         onTap: AuthService.signOut));
     return options;
   }
 
   Widget _content() {
-    if (ref.watch(provider).branches.isEmpty) {
+    if (ref.watch(provider).activeBusiness!.branches.isEmpty) {
       return CustomErrorWidget(
-          errorMessage: "No branches found",
+          errorMessage: LocaleKeys.home_no_branches_found.tr(),
           onPressed: ref.read(provider).getHomeData);
     }
     return Column(
@@ -210,15 +212,21 @@ class _HomeViewState extends ConsumerState<HomeView>
           padding: const EdgeInsets.all(8.0),
           labelStyle: const TextStyle(fontSize: 20),
           labelPadding: const EdgeInsets.all(8.0),
-          tabs: ref.watch(provider).branches.map((e) => Text(e.name)).toList(),
+          tabs: ref
+              .watch(provider)
+              .activeBusiness!
+              .branches
+              .map((e) => Text(e.name))
+              .toList(),
         ),
         Expanded(
             child: DefaultTabController(
-                length: ref.watch(provider).branches.length,
+                length: ref.watch(provider).activeBusiness!.branches.length,
                 child: TabBarView(
                   controller: ref.watch(provider).tabController,
                   children: ref
                       .watch(provider)
+                      .activeBusiness!
                       .branches
                       .map((branch) => _branchTab(branch))
                       .toList(),
@@ -231,10 +239,8 @@ class _HomeViewState extends ConsumerState<HomeView>
     return GridView.builder(
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (context, index) => Card(
-        child: _sessionItem(
-            branchModel: branch, workingHour: branch.workingHoursList[index]),
-      ),
+      itemBuilder: (context, index) => _sessionItem(
+          branchModel: branch, workingHour: branch.workingHoursList[index]),
       itemCount: branch.workingHoursList.length,
     );
   }
@@ -255,10 +261,11 @@ class _HomeViewState extends ConsumerState<HomeView>
           time: workingHour,
           sessionModel: sessionModel,
           selectedBranch: branchModel,
-          branches: ref.watch(provider).branches,
+          branches: ref.watch(provider).activeBusiness!.branches,
         ));
       },
       child: Container(
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10),
@@ -341,15 +348,22 @@ class _HomeViewState extends ConsumerState<HomeView>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-                "Name: ${sessionModel.name.isEmpty ? "-" : sessionModel.name}"),
-            Text("Person count: ${sessionModel.personCount}"),
-            Text(
-                "Phone: ${sessionModel.phone.isEmpty ? "-" : sessionModel.phone}"),
-            Text(
-                "Note: ${sessionModel.note.isEmpty ? "-" : sessionModel.note}"),
-            Text(
-                "Added by: ${ref.watch(provider).activeBusiness!.users.firstWhere((element) => element.uid == sessionModel.addedBy).name}"),
+            Text(LocaleKeys.home_name_label.tr(
+                args: [sessionModel.name.isEmpty ? "-" : sessionModel.name])),
+            Text(LocaleKeys.home_person_count_label
+                .tr(args: [sessionModel.personCount.toString()])),
+            Text(LocaleKeys.home_phone_label.tr(
+                args: [sessionModel.phone.isEmpty ? "-" : sessionModel.phone])),
+            Text(LocaleKeys.home_note_label.tr(
+                args: [sessionModel.note.isEmpty ? "-" : sessionModel.note])),
+            Text(LocaleKeys.home_added_by_label.tr(args: [
+              ref
+                  .watch(provider)
+                  .activeBusiness!
+                  .users
+                  .firstWhere((element) => element.uid == sessionModel.addedBy)
+                  .name
+            ])),
           ],
         ),
       ),

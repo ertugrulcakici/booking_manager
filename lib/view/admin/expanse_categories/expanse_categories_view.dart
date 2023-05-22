@@ -1,8 +1,11 @@
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/expanse_category_model.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/view/admin/expanse_categories/category_line_widget.dart';
 import 'package:bookingmanager/view/admin/expanse_categories/expanse_categories_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,9 +33,7 @@ class _ExpanseCategoriesViewState extends ConsumerState<ExpanseCategoriesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _fab(),
-      appBar: AppBar(
-        title: const Text("Expanse categories"),
-      ),
+      appBar: AppBar(title: Text(LocaleKeys.expanse_categories_title.tr())),
       body: _body(),
     );
   }
@@ -63,7 +64,14 @@ class _ExpanseCategoriesViewState extends ConsumerState<ExpanseCategoriesView> {
                 .editCategoryName(category, newValue);
           },
           onDelete: () {
-            ref.read(provider).deleteCategory(category);
+            PopupHelper.instance.showOkCancelDialog(
+                title: LocaleKeys.expanse_categories_title.tr(),
+                content: LocaleKeys
+                    .expanse_categories_delete_expanse_category_content
+                    .tr(),
+                onOk: () {
+                  ref.read(provider).deleteCategory(category);
+                });
           },
         );
       },
@@ -73,7 +81,7 @@ class _ExpanseCategoriesViewState extends ConsumerState<ExpanseCategoriesView> {
   FloatingActionButton _fab() {
     return FloatingActionButton.extended(
       onPressed: _addCategoryPopup,
-      label: const Text("Add category"),
+      label: Text(LocaleKeys.expanse_categories_create_expanse_category.tr()),
       icon: const Icon(Icons.add),
     );
   }
@@ -108,26 +116,27 @@ class _AddPopupState extends State<AddPopup> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Add category"),
+      title: Text(LocaleKeys.expanse_categories_create_expanse_category.tr()),
       content: TextField(
         controller: _controller,
         onEditingComplete: () {
           widget.onSubmit(_controller.text);
         },
-        decoration: const InputDecoration(hintText: "Category name"),
+        decoration: InputDecoration(
+            hintText: LocaleKeys.expanse_categories_category_name_label.tr()),
       ),
       actions: [
         TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text("Cancel")),
+            child: Text(LocaleKeys.cancel.tr())),
         TextButton(
             onPressed: () {
               Navigator.pop(context);
               widget.onSubmit(_controller.text);
             },
-            child: const Text("Add"))
+            child: Text(LocaleKeys.add.tr()))
       ],
     );
   }

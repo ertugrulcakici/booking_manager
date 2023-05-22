@@ -1,6 +1,251 @@
 {
+    "app_name": "Booking Manager",
+    "ok":"Okay",
+    "cancel":"Cancel",
+    "yes":"Yes",
+    "no":"No",
+    "delete": "Delete",
+    "save": "Save",
+    "add": "Add",
+    "edit": "Edit",
+    "close": "Close",
+    "create": "Create",
+    "update": "Update",
+    
+    "auth_service":{
+        "user_not_found": "User not found",
+        "wrong_password": "Incorrect password",
+        "invalid_email": "Invalid email address",
+        "user_disabled": "User disabled",
+        "unknown_error": "An unknown error occurred",
+        "logout_success": "Logged out",
+        "email_already_in_use": "Email address already in use",
+        "operation_not_allowed": "Operation not allowed",
+        "weak_password": "Weak password"
+    },
+    
     "branch":{
-        "title_create_branch":"Create Branch",
-        "title_edit_branch":"Edit Branch"
+        "title_create": "Create Branch",
+        "title_edit": "Edit Branch",
+        "branch_name_label": "Branch Name",
+        "branch_name_hint": "Enter branch name",
+        "person_price_label": "Person Price",
+        "person_price_hint": "Enter price per person",
+        "add_working_hour": "Add Working Hour",
+        "empty_working_hours": "No working hours added",
+        "select_time": "Select Time",
+        "already_in_list": "This time is already added",
+        "time": "Time: {}"     
+    },
+    "branches":{
+        "title": "Branches",
+        "no_branches": "No branches found",
+        "delete_branch_content": "Are you sure you want to delete the branch?",
+        "delete_branch_title": "Delete Branch",
+        "create_branch": "Create Branch",
+        
+        "deleted": "Branch deleted",
+        "error_deleting": "An error occurred while deleting the branch",
+        "branch_updated":"Branch updated",
+        "branch_created":"Branch created"
+    },
+    "create_business":{
+        "title": "Create Business",
+        "business_name_label": "Business Name",
+        "business_name_hint": "Enter business name",
+
+        "business_name_empty": "Business name cannot be empty"
+    },
+    "defaults":{
+        "title": "Business Defaults"
+    },
+    "expanse_categories":{
+        "title": "Expense Categories",
+        "create_expanse_category": "Create Expense Category",
+        "category_name_label": "Category Name",
+
+        "delete_expanse_category_content": "Are you sure you want to delete the expense category?",
+        "delete_expanse_category_title": "Delete Expense Category",
+        "deleted": "Expense category deleted"
+    },
+    "expanses":{
+        "delete_expanse_content": "Are you sure you want to delete the expense?",
+        "delete_expanse_title": "Delete Expense",
+        "expanse_category": "Category: {}",
+        "expanse_amount": "Amount: {}",
+        "expanse_note": "Note: {}",
+        "no_expanses": "No expenses found for today",
+        "fab_text": "Categories"
+    },
+    "invitations":{
+        "title": "Invitations",
+        "create_invitation": "Create Invitation",
+        "all_invitations": "All Invitations",
+        "for_who": "For",
+        "no_invitations": "No invitations found",
+        "copied_to_clipboard": "Copied to clipboard",
+        "for_whom": "For: {}",
+        "invitation_code": "Invitation Code: {}",
+        "created_at": "Created At: {}",
+        "is_used": "Used: {}",
+        "used_date": "Used Date: {}",
+        "delete_invitation_content": "Are you sure you want to delete the invitation?",
+        "delete_invitation_title": "Delete Invitation",
+
+        "invitation_created": "Invitation created",
+        "invitation_could_not_be_created": "Invitation could not be created: {}",
+        "invitation_deleted": "Invitation deleted",
+        "invitation_could_not_be_deleted": "Invitation could not be deleted: {}"
+    },
+    "session_history":{
+        "no_sessions": "No sessions found",
+        "session_deleted": "Deleted session",
+        "session_updated": "Updated session (from left to right)",
+        "time": "Time: {}",
+        "by": "Modified by: {}",
+        "branch": "Branch: {}",
+        "date": "Date: {}",
+        "name": "Name: {}",
+        "phone": "Phone: {}",
+        "total": "Total: {}",
+        "extra": "Extra: {}",
+        "discount": "Discount: {}",
+        "person_count": "Person count: {}",
+        "note": "Note: {}",
+        "added_by": "Added by: {}"
+    },
+    "statistics":{
+    },
+    "workers":{
+        "title": "Workers",
+        "invitations": "Invitations",
+        "delete_worker_content": "Are you sure you want to delete the worker?",
+        "delete_worker_title": "Delete Worker",
+
+        "user_deleted": "User deleted",
+        "user_could_not_be_deleted": "User could not be deleted: {}"
+    },
+
+    
+    
+    "forgot_password":{
+       "title": "Forgot Password",
+        "email_label": "Your email address",
+        "reset_button": "Reset Password",
+        "reset_success_message": "Password reset email sent."
+    },
+    "login":{
+        "username_label": "Username",
+        "username_hint": "Enter your username",
+        "password_label": "Password",
+        "password_hint": "Enter your password",
+        "login_button": "Log in",
+        "forgot_password_button": "Forgot Password",
+        "no_account_message": "Don't have an account?",
+        "register_button": "Register",
+        "settings_button": "Settings",
+        "login_success_message": "Login successful"
+    },
+    "register":{
+        "title": "Register",
+        "email_label": "Email Address",
+        "email_hint": "example@example.com",
+        "password_label": "Password",
+        "password_hint": "******",
+        "show_password_button": "Show Password",
+        "name_label": "Name",
+        "name_hint": "Enter your name",
+        "register_button": "Register"
+    },
+    "splash":{
+        "version": "Version: {}"
+    },
+
+    
+    "add_expanse":{
+        "title": "Add Expense",
+        "amount_label": "Amount",
+        "amount_hint": "Please enter the amount",
+        "amount_error_message": "Please enter a valid amount",
+        "category_label": "Category",
+        "category_hint": "Please select a category",
+        "category_error_message": "Please select a category",
+        "note_label": "Note",
+        "note_hint": "Please enter a note",
+
+        "added_successfully": "Expense added successfully"
+    },
+    "home":{
+        "add_expanse": "Add Expense",
+        "no_branches_found": "No branches found",
+        "profile": "Profile",
+        "settings": "Settings",
+        "exit": "Exit",
+        "calendar_today": "Select Date",
+
+        "call": "Call",
+        "name_label": "Name: {}",
+        "person_count_label": "Person Count: {}",
+        "phone_label": "Phone: {}",
+        "note_label": "Note: {}",
+        "added_by_label": "Added by: {}",
+
+        "business_management": "Business Management",
+        "expanses": "Expenses",
+        "workers": "Workers",
+        "branches": "Branches",
+        "session_history": "Session History"
+    },
+    "session":{
+        "title_add": "Add Session",
+        "title_edit": "Edit Session",
+        "name_label": "Name",
+        "name_hint": "Enter name",
+        "person_count_label": "Person Count",
+        "person_count_hint": "Enter person count",
+        "person_count_error_message": "Please enter a valid person count",
+        "phone_label": "Phone Number",
+        "phone_hint": "Enter phone number",
+        "note_label": "Note",
+        "note_hint": "Enter note",
+        "extra_label": "Extra",
+        "extra_hint": "Enter extra",
+        "extra_error_message": "Please enter a valid extra",
+        "discount_label": "Discount",
+        "discount_hint": "Enter discount",
+        "discount_error_message": "Please enter a valid discount",
+        "update_session_popup_title": "Update Session",
+        "update_session_popup_content": "Are you sure you want to update the session?",
+
+        "added_successfully": "Session added successfully",
+        "updated_successfully": "Session updated successfully",
+        "deleted_successfully": "Session deleted successfully",
+        "could_not_be_saved": "Session could not be saved: {}",
+        "could_not_be_deleted": "Session could not be deleted: {}"
+    },
+
+    
+    "settings":{
+        "title": "Settings",
+        "language": "Language"
+    },
+
+    
+    "account_setup":{
+        "title": "Account Setup",
+        "business_owner": "Business Owner",
+        "worker": "Worker",
+        "invitation_code_label": "Invitation Code",
+        "invitation_code_hint": "Enter invitation code",
+        "next_step_hint": "After the next step, you can create a business from the menu on the left",
+        "logout_button": "Log Out",
+        
+        "invalid_code": "Invalid invitation code",
+        "joined_successfully": "You have successfully joined a business"
+    },
+    "profile":{
+        
+        
     }
+
 }

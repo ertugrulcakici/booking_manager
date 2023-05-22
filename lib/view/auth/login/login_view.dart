@@ -1,8 +1,10 @@
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/view/auth/forgot_password/forgot_password_view.dart';
 import 'package:bookingmanager/view/auth/login/login_notifier.dart';
 import 'package:bookingmanager/view/auth/register/register_view.dart';
 import 'package:bookingmanager/view/settings/settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +65,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 32),
       child: Image.asset(
-        'assets/images/logo.png',
+        "assets/images/logo.png",
         width: 150,
       ),
     );
@@ -76,23 +78,23 @@ class _LoginViewState extends ConsumerState<LoginView> {
           ref.read(provider).formData["email"] = newValue;
         },
         initialValue: kDebugMode ? "ertugrul.cakicii@gmail.com" : null,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Kullanıcı Adı',
-          hintText: 'Kullanıcı adınızı girin',
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: LocaleKeys.login_username_label.tr(),
+          hintText: LocaleKeys.login_username_hint.tr(),
         ),
       ),
       const SizedBox(height: 16),
       TextFormField(
-        initialValue: kDebugMode ? "ertuertu27" : null,
+        initialValue: kDebugMode ? "googleAccount1" : null,
         obscureText: true,
         onSaved: (newValue) {
           ref.read(provider).formData["password"] = newValue;
         },
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Şifre',
-          hintText: 'Şifrenizi girin',
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: LocaleKeys.login_password_label.tr(),
+          hintText: LocaleKeys.login_password_hint.tr(),
         ),
       ),
     ]);
@@ -103,7 +105,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
       margin: const EdgeInsets.only(top: 16),
       child: ElevatedButton(
         onPressed: _login,
-        child: const Text('Giriş Yap'),
+        child: Text(LocaleKeys.login_login_button.tr()),
       ),
     );
   }
@@ -115,7 +117,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
         onPressed: () {
           NavigationService.toPage(const ForgotPasswordView());
         },
-        child: const Text('Şifremi Unuttum'),
+        child: Text(LocaleKeys.login_forgot_password_button.tr()),
       ),
     );
   }
@@ -124,7 +126,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('Hesabınız yok mu?'),
+        Text(LocaleKeys.login_no_account_message.tr()),
         const SizedBox(width: 4),
         TextButton(
           onPressed: () {
@@ -132,7 +134,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
             // Şimdilik sadece mesaj verelim.
             NavigationService.toPage(const RegisterView());
           },
-          child: const Text('Kayıt Ol'),
+          child: Text(LocaleKeys.login_register_button.tr()),
         ),
       ],
     );

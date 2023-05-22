@@ -1,8 +1,10 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class WorkersNotifier extends ChangeNotifier with LoadingNotifierMixin {
@@ -44,10 +46,13 @@ class WorkersNotifier extends ChangeNotifier with LoadingNotifierMixin {
             .update(userDocRef, {"relatedBusinessUid": FieldValue.delete()});
         return Future.value(true);
       });
-      PopupHelper.instance.showSnackBar(message: "User deleted successfully");
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.workers_user_deleted.tr());
     } catch (e) {
       PopupHelper.instance.showSnackBar(
-          message: "User couldn't be deleted due to : $e", error: true);
+          message: LocaleKeys.workers_user_could_not_be_deleted
+              .tr(args: [e.toString()]),
+          error: true);
     } finally {
       isLoading = false;
     }

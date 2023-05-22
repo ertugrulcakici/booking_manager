@@ -71,4 +71,19 @@ class ExpansesNotifier extends ChangeNotifier with LoadingNotifierMixin {
       isLoading = false;
     }
   }
+
+  Future<void> deleteExpanse(ExpanseModel expanse) async {
+    try {
+      isLoading = true;
+      await FirebaseFirestore.instance
+          .collection("expanses")
+          .doc(expanse.uid)
+          .delete();
+      expanses.remove(expanse);
+    } catch (e) {
+      rethrow;
+    } finally {
+      isLoading = false;
+    }
+  }
 }

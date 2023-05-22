@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
-import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/business_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,11 +11,11 @@ import 'package:flutter/material.dart';
 
 class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
   BusinessModel? activeBusiness;
-  List<BranchModel> branches = [];
+  // List<BranchModel> branches = [];
   Map<String, List<SessionModel>> sessions = {};
 
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _businessListener;
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _branchesListener;
+  // StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _branchesListener;
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _sessionsListener;
 
   TickerProvider viewState;
@@ -36,7 +36,7 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
     try {
       isLoading = true;
       await _getBusinessData();
-      await _getBranchesData();
+      // await _getBranchesData();
       await _getSessionsData();
       notifyListeners();
       await _setupListeners();
@@ -61,30 +61,30 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
     }
   }
 
-  Future<void> _getBranchesData() async {
-    try {
-      branches.clear();
-      final branchesDocs = await FirebaseFirestore.instance
-          .collection("branches")
-          .where("relatedBusinessUid",
-              isEqualTo: AuthService.instance.user!.relatedBusinessUid)
-          .get();
-      branches
-          .addAll(branchesDocs.docs.map((e) => BranchModel.fromJson(e.data())));
+  // Future<void> _getBranchesData() async {
+  //   try {
+  //     branches.clear();
+  //     final branchesDocs = await FirebaseFirestore.instance
+  //         .collection("branches")
+  //         .where("relatedBusinessUid",
+  //             isEqualTo: AuthService.instance.user!.relatedBusinessUid)
+  //         .get();
+  //     branches
+  //         .addAll(branchesDocs.docs.map((e) => BranchModel.fromJson(e.data())));
 
-      // ui
-      _setupTab();
-    } catch (e) {
-      rethrow;
-    }
-  }
+  //     // ui
+  //     _setupTab();
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 
   void _setupTab() {
     try {
       tabController?.removeListener(_tabListener);
       tabController?.dispose();
       tabController = TabController(
-          length: branches.length,
+          length: activeBusiness!.branches.length,
           vsync: viewState,
           initialIndex: lastSelectedTabIndex);
       if (tabController!.index != lastSelectedTabIndex &&
@@ -104,7 +104,7 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
   Future<void> _getSessionsData() async {
     try {
       sessions.clear();
-      for (var branch in branches) {
+      for (var branch in activeBusiness!.branches) {
         final sessionsDocs = await FirebaseFirestore.instance
             .collection("sessions")
             .where("relatedBranchUid", isEqualTo: branch.uid)
@@ -122,11 +122,11 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
   Future<void> _setupListeners() async {
     try {
       await _setupBusinessListener();
-      await _setupBranchesListener();
+      // await _setupBranchesListener();
       await _setupSessionsListener();
     } catch (e) {
       _businessListener?.cancel();
-      _branchesListener?.cancel();
+      // _branchesListener?.cancel();
       _sessionsListener?.cancel();
       rethrow;
     }
@@ -143,10 +143,14 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
       isLoading = true;
       if (event.exists) {
         activeBusiness = BusinessModel.fromJson(event.data()!);
+        // await _getBranchesData();
         await activeBusiness!.fetchUsers();
+        await activeBusiness!.fetchBranches();
+        _setupTab();
         if (!completer.isCompleted) {
           completer.complete();
         }
+        NavigationService.backToRoot();
         notifyListeners();
       } else {
         activeBusiness = null;
@@ -156,36 +160,36 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
     await completer.future;
   }
 
-  Future<void> _setupBranchesListener() async {
-    _branchesListener?.cancel();
-    _branchesListener = FirebaseFirestore.instance
-        .collection("branches")
-        .where("relatedBusinessUid",
-            isEqualTo: AuthService.instance.user!.relatedBusinessUid)
-        .snapshots()
-        .listen((event) {
-      isLoading = true;
-      for (var element in event.docs) {
-        if (element.exists) {
-          BranchModel snapshotBranch = BranchModel.fromJson(element.data());
-          bool ifExists =
-              branches.any((branch) => snapshotBranch.uid == branch.uid);
-          if (!ifExists) {
-            branches.add(snapshotBranch);
-          } else {
-            int index = branches
-                .indexWhere((branch) => snapshotBranch.uid == branch.uid);
-            branches[index] = snapshotBranch;
-          }
-        } else {
-          if (branches.any((branch) => branch.uid == element.id)) {
-            branches.removeWhere((branch) => branch.uid == element.id);
-          }
-        }
-      }
-      isLoading = false;
-    });
-  }
+  // Future<void> _setupBranchesListener() async {
+  //   _branchesListener?.cancel();
+  //   _branchesListener = FirebaseFirestore.instance
+  //       .collection("branches")
+  //       .where("relatedBusinessUid",
+  //           isEqualTo: AuthService.instance.user!.relatedBusinessUid)
+  //       .snapshots()
+  //       .listen((event) {
+  //     isLoading = true;
+  //     for (var element in event.docs) {
+  //       if (element.exists) {
+  //         BranchModel snapshotBranch = BranchModel.fromJson(element.data());
+  //         bool ifExists =
+  //             branches.any((branch) => snapshotBranch.uid == branch.uid);
+  //         if (!ifExists) {
+  //           branches.add(snapshotBranch);
+  //         } else {
+  //           int index = branches
+  //               .indexWhere((branch) => snapshotBranch.uid == branch.uid);
+  //           branches[index] = snapshotBranch;
+  //         }
+  //       } else {
+  //         if (branches.any((branch) => branch.uid == element.id)) {
+  //           branches.removeWhere((branch) => branch.uid == element.id);
+  //         }
+  //       }
+  //     }
+  //     isLoading = false;
+  //   });
+  // }
 
   Future<void> _setupSessionsListener() async {
     _sessionsListener?.cancel();

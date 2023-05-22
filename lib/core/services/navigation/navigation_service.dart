@@ -44,4 +44,11 @@ abstract class NavigationService {
       navigatorKey.currentState!.pop(data);
     }
   }
+
+  // back to root
+  static void backToRoot() {
+    if (navigatorKey.currentState!.canPop()) {
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    }
+  }
 }

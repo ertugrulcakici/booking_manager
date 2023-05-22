@@ -1,11 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/view/admin/branch/branch_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,102 +37,113 @@ class _BranchViewState extends ConsumerState<BranchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _formKey.currentState?.save();
-          ref.read(provider).save();
-        },
-        child: const Icon(Icons.save),
-      ),
+      floatingActionButton: _fab(),
       appBar: AppBar(
-          title: Text(widget.branch == null ? "Create branch" : "Edit branch")),
+          title: Text(widget.branch == null
+              ? LocaleKeys.branches_create_branch.tr()
+              : LocaleKeys.branch_title_edit.tr())),
       body: _body(),
     );
   }
 
+  FloatingActionButton _fab() {
+    return FloatingActionButton(
+      onPressed: () {
+        _formKey.currentState?.save();
+        ref.read(provider).save();
+      },
+      child: const Icon(Icons.save),
+    );
+  }
+
   Widget _body() {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          TextFormField(
-            onSaved: (newValue) {
-              ref.read(provider).formData["name"] = newValue;
-            },
-            initialValue: ref.watch(provider).formData["name"],
-            decoration: const InputDecoration(
-              labelText: 'Branch name',
-              hintText: "Enter branch name",
-            ),
-          ),
-          TextFormField(
-            onSaved: (newValue) {
-              ref.read(provider).formData["unitPrice"] = num.parse(newValue!);
-            },
-            initialValue: ref.watch(provider).formData["unitPrice"].toString(),
-            decoration: const InputDecoration(
-              labelText: 'Person price',
-              hintText: "Enter person price",
-            ),
-          ),
-          ListTile(
-            title: const Text("Add working hours"),
-            onTap: _addWorkingHour,
-            trailing: const Icon(Icons.add),
-          ),
-          (ref.watch(provider).formData["workingHoursList"] as List).isEmpty
-              ? const Text("There is no working hours added")
-              : const SizedBox(height: 0),
-          Expanded(
-            child: ReorderableListView.builder(
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (oldIndex < newIndex) {
-                    newIndex -= 1;
-                  }
-                  final items =
-                      (ref.read(provider).formData["workingHoursList"] as List);
-                  final item = items.removeAt(oldIndex);
-                  items.insert(newIndex, item);
-                });
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextFormField(
+              onSaved: (newValue) {
+                ref.read(provider).formData["name"] = newValue;
               },
-              shrinkWrap: true,
-              itemCount:
-                  (ref.watch(provider).formData["workingHoursList"] as List)
-                      .length,
-              itemBuilder: (context, index) {
-                final workingHour = (ref
-                    .watch(provider)
-                    .formData["workingHoursList"] as List)[index];
-                return ListTile(
-                  leading: const Icon(Icons.drag_handle),
-                  key: ValueKey(workingHour),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        (ref.read(provider).formData["workingHoursList"]
-                                as List)
-                            .removeAt(index);
-                      });
-                    },
-                  ),
-                  title: Center(
-                    child: Text(workingHour),
-                  ),
-                );
-              },
+              initialValue: ref.watch(provider).formData["name"],
+              decoration: InputDecoration(
+                labelText: LocaleKeys.branch_branch_name_label.tr(),
+                hintText: LocaleKeys.branch_branch_name_hint.tr(),
+              ),
             ),
-          ),
-        ],
+            TextFormField(
+              onSaved: (newValue) {
+                ref.read(provider).formData["unitPrice"] = num.parse(newValue!);
+              },
+              initialValue:
+                  ref.watch(provider).formData["unitPrice"].toString(),
+              decoration: InputDecoration(
+                labelText: LocaleKeys.branch_person_price_label.tr(),
+                hintText: LocaleKeys.branch_person_price_hint.tr(),
+              ),
+            ),
+            ListTile(
+              title: Text(LocaleKeys.branch_add_working_hour.tr()),
+              onTap: _addWorkingHour,
+              trailing: const Icon(Icons.add),
+            ),
+            (ref.watch(provider).formData["workingHoursList"] as List).isEmpty
+                ? Text(LocaleKeys.branch_empty_working_hours.tr())
+                : const SizedBox(height: 0),
+            Expanded(
+              child: ReorderableListView.builder(
+                onReorder: (oldIndex, newIndex) {
+                  setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final items = (ref
+                        .read(provider)
+                        .formData["workingHoursList"] as List);
+                    final item = items.removeAt(oldIndex);
+                    items.insert(newIndex, item);
+                  });
+                },
+                shrinkWrap: true,
+                itemCount:
+                    (ref.watch(provider).formData["workingHoursList"] as List)
+                        .length,
+                itemBuilder: (context, index) {
+                  final workingHour = (ref
+                      .watch(provider)
+                      .formData["workingHoursList"] as List)[index];
+                  return ListTile(
+                    leading: const Icon(Icons.drag_handle),
+                    key: ValueKey(workingHour),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          (ref.read(provider).formData["workingHoursList"]
+                                  as List)
+                              .removeAt(index);
+                        });
+                      },
+                    ),
+                    title: Center(
+                      child: Text(workingHour),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Future<void> _addWorkingHour() async {
     TimeOfDay? time = await showTimePicker(
-        helpText: "Select time",
+        helpText: LocaleKeys.branch_select_time.tr(),
         context: context,
         builder: (context, child) => MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -144,19 +155,18 @@ class _BranchViewState extends ConsumerState<BranchView> {
           .formData["workingHoursList"]
           .contains(time.formatted)) {
         ref.watch(provider).formData["workingHoursList"].add(time.formatted);
-        setState(() {
-          log("Set state executed");
-        });
+        setState(() {});
       } else {
         PopupHelper.instance.showSnackBar(
-            message: "This working hour already added to the list",
-            error: true);
+            message: LocaleKeys.branch_already_in_list.tr(), error: true);
       }
     }
   }
 
   Future<void> addBranchProperty() async {}
 }
+
+// TODO: farklı sayfaya al
 
 class _TimePickerDialog extends StatefulWidget {
   const _TimePickerDialog();
@@ -171,13 +181,13 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Add working hours"),
+      title: Text(LocaleKeys.branch_add_working_hour.tr()),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           workingHour == null
-              ? const Text("Select time")
-              : Text("Time: $workingHour"),
+              ? Text(LocaleKeys.branch_select_time.tr())
+              : Text(LocaleKeys.branch_time.tr(args: [workingHour!])),
           ElevatedButton(
               onPressed: () async {
                 TimeOfDay? time = await showTimePicker(
@@ -190,7 +200,7 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
                   });
                 }
               },
-              child: const Text("Choose time")),
+              child: Text(LocaleKeys.branch_select_time.tr())),
           const SizedBox(height: 16),
         ],
       ),
@@ -199,12 +209,12 @@ class _TimePickerDialogState extends State<_TimePickerDialog> {
             onPressed: () {
               Navigator.pop(context, null);
             },
-            child: const Text("Cancel")),
+            child: Text(LocaleKeys.cancel.tr())),
         TextButton(
             onPressed: () {
               Navigator.pop(context, workingHour);
             },
-            child: const Text("Add")),
+            child: Text(LocaleKeys.add.tr())),
       ],
     );
   }

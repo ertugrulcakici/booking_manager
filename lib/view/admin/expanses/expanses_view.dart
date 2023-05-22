@@ -1,13 +1,15 @@
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/expanse_model.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/expanse_categories/expanse_categories_view.dart';
 import 'package:bookingmanager/view/admin/expanses/expanses_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ExpansesView extends ConsumerStatefulWidget {
   const ExpansesView({super.key});
@@ -30,14 +32,7 @@ class _ExpansesViewState extends ConsumerState<ExpansesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          NavigationService.toPage(ExpanseCategoriesView(
-              categories: ref.watch(provider).categories));
-        },
-        label: const Text("Categories"),
-        icon: const Icon(Icons.category),
-      ),
+      floatingActionButton: _fab(),
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -80,6 +75,9 @@ class _ExpansesViewState extends ConsumerState<ExpansesView> {
   }
 
   Widget _content() {
+    if (ref.watch(provider).expanses.isEmpty) {
+      return Center(child: Text(LocaleKeys.expanses_no_expanses.tr()));
+    }
     return ListView.separated(
         itemBuilder: (context, index) {
           final expanse = ref.watch(provider).expanses[index];
@@ -90,24 +88,46 @@ class _ExpansesViewState extends ConsumerState<ExpansesView> {
   }
 
   Widget _expanseItem(ExpanseModel expanse) {
-    return Slidable(
-      startActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          extentRatio: 0.25,
-          children: [
-            SlidableAction(
-              onPressed: (context) {},
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              icon: Icons.edit,
-              label: 'Edit',
-            ),
-          ]),
+    return Card(
       child: ListTile(
-        title: Text(expanse.categoryUid),
-        subtitle: Text(expanse.note),
-        trailing: Text(expanse.amount.toString()),
+        title: Text(LocaleKeys.expanses_expanse_category.tr(args: [
+          ref
+              .watch(provider)
+              .categories
+              .firstWhere((element) => element.uid == expanse.categoryUid)
+              .name
+        ])),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(LocaleKeys.expanses_expanse_amount
+                .tr(args: [expanse.amount.toStringAsFixed(2)])),
+            Text(LocaleKeys.expanses_expanse_note.tr(args: [expanse.note])),
+          ],
+        ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            PopupHelper.instance.showOkCancelDialog(
+                title: LocaleKeys.expanses_delete_expanse_title.tr(),
+                content: LocaleKeys.expanses_delete_expanse_content.tr(),
+                onOk: () {
+                  ref.read(provider).deleteExpanse(expanse);
+                });
+          },
+        ),
       ),
+    );
+  }
+
+  _fab() {
+    return FloatingActionButton.extended(
+      onPressed: () {
+        NavigationService.toPage(
+            ExpanseCategoriesView(categories: ref.watch(provider).categories));
+      },
+      label: Text(LocaleKeys.expanses_fab_text.tr()),
+      icon: const Icon(Icons.category),
     );
   }
 }

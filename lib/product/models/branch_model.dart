@@ -58,7 +58,7 @@ class BranchModel extends HiveObject {
 
   @override
   String toString() {
-    return 'BranchModel(uid: $uid, relatedBusinessUid: $relatedBusinessUid, name: $name, unitPrice: $unitPrice, workingHoursList: $workingHoursList)';
+    return toJson().toString();
   }
 
   Map<String, dynamic> toJson() => {

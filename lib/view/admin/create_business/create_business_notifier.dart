@@ -1,9 +1,11 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/business_model.dart';
 import 'package:bookingmanager/view/main/home/home_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CreateBusinessNotifier extends ChangeNotifier {
@@ -11,7 +13,8 @@ class CreateBusinessNotifier extends ChangeNotifier {
 
   Future<void> save({required String businessName}) async {
     if (businessName.trim().isEmpty) {
-      PopupHelper.instance.showSnackBar(message: "Business name is empty");
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.create_business_business_name_empty.tr());
     }
     final BusinessModel business = BusinessModel(
         uid: DateTime.now().millisecondsSinceEpoch.toString(),

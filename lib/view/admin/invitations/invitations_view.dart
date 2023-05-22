@@ -1,8 +1,10 @@
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/models/invitation_model.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/invitations/invitations_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,7 +41,8 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Invitations")), body: _body());
+        appBar: AppBar(title: Text(LocaleKeys.invitations_title.tr())),
+        body: _body());
   }
 
   Widget _body() {
@@ -49,13 +52,13 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Create invitation",
+              LocaleKeys.invitations_create_invitation.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             _invitationForm(),
             const Divider(),
             Text(
-              "Invitations",
+              LocaleKeys.invitations_all_invitations.tr(),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             _invitationList()
@@ -72,7 +75,8 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
           ref.read(provider).createInvitation(value);
           _nameController.clear();
         },
-        decoration: const InputDecoration(labelText: "For whom"),
+        decoration:
+            InputDecoration(labelText: LocaleKeys.invitations_for_who.tr()),
       ),
     ]));
   }
@@ -82,7 +86,9 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
       return const Expanded(child: CustomLoadingWidget());
     }
     if (ref.watch(provider).invitations.isEmpty) {
-      return const Expanded(child: Center(child: Text("No invitations")));
+      return Expanded(
+          child:
+              Center(child: Text(LocaleKeys.invitations_no_invitations.tr())));
     }
     return Expanded(
       child: ListView.builder(
@@ -104,7 +110,10 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [Icon(Icons.delete), Text("Delete")],
+                          children: [
+                            const Icon(Icons.delete),
+                            Text(LocaleKeys.delete.tr())
+                          ],
                         ),
                       ),
                     ),
@@ -121,20 +130,29 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
                   icon: const Icon(Icons.copy),
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: invitation.code));
-                    PopupHelper.instance
-                        .showSnackBar(message: "Copied to clipboard");
+                    PopupHelper.instance.showSnackBar(
+                        message:
+                            LocaleKeys.invitations_copied_to_clipboard.tr());
                   },
                 ),
-                title: Text("For whom: ${invitation.forWhomName}"),
+                title: Text(LocaleKeys.invitations_for_whom
+                    .tr(args: [invitation.forWhomName])),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Invitation code: ${invitation.code}"),
-                    Text(
-                        "Created at: ${invitation.createdDate.toDateTime().formattedDateTime}"),
-                    Text("Is used: ${invitation.isUsed}"),
-                    Text(
-                        "Used date: ${invitation.usedDate?.toDateTime().formattedDateTime ?? '-'}")
+                    Text(LocaleKeys.invitations_invitation_code
+                        .tr(args: [invitation.code])),
+                    Text(LocaleKeys.invitations_created_at.tr(args: [
+                      invitation.createdDate.toDateTime().formattedDateTime
+                    ])),
+                    Text(LocaleKeys.invitations_is_used.tr(args: [
+                      invitation.isUsed
+                          ? LocaleKeys.yes.tr()
+                          : LocaleKeys.no.tr()
+                    ])),
+                    Text(LocaleKeys.invitations_used_date.tr(args: [
+                      invitation.usedDate?.toDateTime().formattedDateTime ?? "-"
+                    ])),
                   ],
                 ),
               ),
@@ -146,29 +164,11 @@ class _InvitationsViewState extends ConsumerState<InvitationsView> {
   }
 
   void _deleteInvitation(InvitationModel invitation) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Delete invitation"),
-            content:
-                const Text("Are you sure you want to delete this invitation?"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  ref.read(provider).deleteInvitation(invitation);
-                  Navigator.of(context).pop();
-                },
-                child: const Text("Yes"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text("No"),
-              )
-            ],
-          );
+    PopupHelper.instance.showOkCancelDialog(
+        title: LocaleKeys.invitations_delete_invitation_title.tr(),
+        content: LocaleKeys.invitations_delete_invitation_content.tr(),
+        onOk: () {
+          ref.read(provider).deleteInvitation(invitation);
         });
   }
 }

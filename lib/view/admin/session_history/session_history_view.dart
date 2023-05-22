@@ -1,5 +1,6 @@
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/extensions/list_extensions.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/enums/session_history_type_enum.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/business_model.dart';
@@ -7,6 +8,7 @@ import 'package:bookingmanager/product/models/session_history_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/view/admin/session_history/session_history_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -65,7 +67,7 @@ class _SessionHistoryViewState extends ConsumerState<SessionHistoryView> {
 
   Widget _content() {
     if (ref.watch(provider).sessionHistories.isEmpty) {
-      return const Center(child: Text("No session history on that day"));
+      return Center(child: Text(LocaleKeys.session_history_no_sessions.tr()));
     }
     return ListView.builder(
       itemCount: ref.watch(provider).sessionHistories.length,
@@ -81,14 +83,19 @@ class _SessionHistoryViewState extends ConsumerState<SessionHistoryView> {
     return Card(
       child: ListTile(
         title: Text(sessionHistory.historyType == SessionHistoryType.deleted
-            ? "Session has been deleted"
-            : "Session has been updated from left to right"),
+            ? LocaleKeys.session_history_session_deleted.tr()
+            : LocaleKeys.session_history_session_updated.tr()),
         subtitle: Column(children: [
           const Divider(),
-          Text(
-              "Time: ${DateTime.fromMillisecondsSinceEpoch(sessionHistory.timestamp).formattedDateTime}"),
-          Text(
-              "By: ${widget.activeBusiness.users.firstWhere((element) => element.uid == sessionHistory.by).name}"),
+          Text(LocaleKeys.session_history_time.tr(args: [
+            DateTime.fromMillisecondsSinceEpoch(sessionHistory.timestamp)
+                .formattedDateTime
+          ])),
+          Text(LocaleKeys.session_history_name.tr(args: [
+            widget.activeBusiness.users
+                .firstWhere((element) => element.uid == sessionHistory.by)
+                .name
+          ])),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -118,19 +125,31 @@ class _SessionHistoryViewState extends ConsumerState<SessionHistoryView> {
           borderRadius: BorderRadius.circular(5)),
       child: Column(
         children: [
-          Text(
-              "Branch: ${widget.branches.firstWhere((element) => element.uid == sessionModel.branchUid).name}"),
-          Text("Date: ${sessionModel.timestamp.toDateTime().formattedDate}"),
-          Text("Time: ${sessionModel.timestamp.toDateTime().formattedTime}"),
-          Text("Name: ${sessionModel.name}"),
-          Text("Phone: ${sessionModel.phone}"),
-          Text("Total: ${sessionModel.total}"),
-          Text("Extra: ${sessionModel.extra}"),
-          Text("Discount: ${sessionModel.discount}"),
-          Text("Person count: ${sessionModel.personCount}"),
-          Text("Note: ${sessionModel.note}"),
-          Text(
-              "Added by: ${widget.activeBusiness.users.firstWhere((element) => element.uid == sessionModel.addedBy).name}"),
+          Text(LocaleKeys.session_history_branch.tr(args: [
+            widget.branches
+                .firstWhere((element) => element.uid == sessionModel.branchUid)
+                .name
+          ])),
+          Text(LocaleKeys.session_history_date
+              .tr(args: [sessionModel.timestamp.toDateTime().formattedDate])),
+          Text(LocaleKeys.session_history_time
+              .tr(args: [sessionModel.timestamp.toDateTime().formattedTime])),
+          Text(LocaleKeys.session_history_name.tr(args: [sessionModel.name])),
+          Text(LocaleKeys.session_history_phone.tr(args: [sessionModel.phone])),
+          Text(LocaleKeys.session_history_total
+              .tr(args: [sessionModel.total.toStringAsFixed(2)])),
+          Text(LocaleKeys.session_history_extra
+              .tr(args: [sessionModel.extra.toStringAsFixed(2)])),
+          Text(LocaleKeys.session_history_discount
+              .tr(args: [sessionModel.discount.toStringAsFixed(2)])),
+          Text(LocaleKeys.session_history_person_count
+              .tr(args: [sessionModel.personCount.toString()])),
+          Text(LocaleKeys.session_history_note.tr(args: [sessionModel.note])),
+          Text(LocaleKeys.session_history_added_by.tr(args: [
+            widget.activeBusiness.users
+                .firstWhere((element) => element.uid == sessionModel.addedBy)
+                .name
+          ])),
         ],
       ),
     );

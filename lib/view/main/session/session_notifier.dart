@@ -1,11 +1,13 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/enums/session_history_type_enum.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/session_history_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SessionNotifier extends ChangeNotifier {
@@ -75,19 +77,20 @@ class SessionNotifier extends ChangeNotifier {
             .doc(sessionLogModel.uid)
             .set(sessionLogModel.toJson());
 
-        PopupHelper.instance
-            .showSnackBar(message: "Session updated successfully");
+        PopupHelper.instance.showSnackBar(
+            message: LocaleKeys.session_updated_successfully.tr());
       } else {
         // we are creating a new session
         PopupHelper.instance
-            .showSnackBar(message: "Session saved successfully");
+            .showSnackBar(message: LocaleKeys.session_added_successfully.tr());
       }
 
       NavigationService.back();
       NavigationService.back();
     } catch (e) {
       PopupHelper.instance.showSnackBar(
-          message: "Session could not be saved due to an error: \n$e");
+          message:
+              LocaleKeys.session_could_not_be_saved.tr(args: [e.toString()]));
     }
   }
 
@@ -111,10 +114,13 @@ class SessionNotifier extends ChangeNotifier {
           .collection("session_history")
           .doc(sessionLogModel.uid)
           .set(sessionLogModel.toJson());
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.session_deleted_successfully.tr());
       NavigationService.back();
     } catch (e) {
       PopupHelper.instance.showSnackBar(
-          message: "Something went wrong due to: \n$e", error: true);
+          message:
+              LocaleKeys.session_could_not_be_deleted.tr(args: [e.toString()]));
     }
   }
 }

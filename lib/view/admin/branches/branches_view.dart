@@ -1,7 +1,9 @@
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/branches/branches_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -28,12 +30,8 @@ class _BranchesViewState extends ConsumerState<BranchesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: ref.read(provider).addBranchNavigate,
-        label: const Text("Add branch"),
-        icon: const Icon(Icons.add),
-      ),
-      appBar: AppBar(title: const Text("Branches")),
+      floatingActionButton: _fab(),
+      appBar: AppBar(title: Text(LocaleKeys.branches_title.tr())),
       body: _body(),
     );
   }
@@ -52,7 +50,7 @@ class _BranchesViewState extends ConsumerState<BranchesView> {
 
   Widget _content() {
     if (ref.watch(provider).branches.isEmpty) {
-      return const Center(child: Text("No branches"));
+      return Center(child: Text(LocaleKeys.branches_no_branches.tr()));
     }
 
     return ListView.separated(
@@ -87,22 +85,30 @@ class _BranchesViewState extends ConsumerState<BranchesView> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Delete branch"),
-            content: const Text("Are you sure you want to delete this branch?"),
+            title: Text(LocaleKeys.branches_delete_branch_title.tr()),
+            content: Text(LocaleKeys.branches_delete_branch_content.tr()),
             actions: [
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: const Text("Cancel")),
+                  child: Text(LocaleKeys.cancel.tr())),
               TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                     ref.read(provider).deleteBranch(branch);
                   },
-                  child: const Text("Delete")),
+                  child: Text(LocaleKeys.delete.tr())),
             ],
           );
         });
+  }
+
+  Widget _fab() {
+    return FloatingActionButton.extended(
+      onPressed: ref.read(provider).addBranchNavigate,
+      label: Text(LocaleKeys.branches_create_branch.tr()),
+      icon: const Icon(Icons.add),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:bookingmanager/core/services/cache/cache_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/firebase_options.dart';
 import 'package:bookingmanager/product/constants/app_constants.dart';
@@ -39,10 +40,13 @@ class App extends StatelessWidget {
         designSize:
             const Size(AppConstants.designWidth, AppConstants.designHeight),
         builder: (context, child) => MaterialApp(
+          locale: context.locale,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,
           navigatorKey: NavigationService.navigatorKey,
-          title: 'Booking Manager',
+          title: LocaleKeys.app_name.tr(),
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
             primarySwatch: Colors.blue,

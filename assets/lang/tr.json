@@ -1,6 +1,253 @@
 {
+
+    "app_name":"Seans Yönetimi",
+    "ok":"Tamam",
+    "cancel":"İptal",
+    "yes":"Evet",
+    "no":"Hayır",
+    "delete":"Sil",
+    "save":"Kaydet",
+    "add":"Ekle",
+    "edit":"Düzenle",
+    "close":"Kapat",
+    "create":"Oluştur",
+    "update":"Güncelle",
+    
+    "auth_service":{
+        "user_not_found":"Kullanıcı bulunamadı",
+        "wrong_password":"Yanlış şifre",
+        "invalid_email":"Geçersiz e-posta adresi",
+        "user_disabled":"Kullanıcı devre dışı bırakıldı",
+        "unknown_error":"Bilinmeyen bir hata oluştu",
+        "logout_success":"Çıkış yapıldı",
+        "email_already_in_use":"E-posta adresi zaten kullanımda",
+        "operation_not_allowed":"İşlem izni yok",
+        "weak_password":"Zayıf şifre"
+    },
+
+
+    
+    
     "branch":{
-        "title_create_branch":"İş yeri oluştur",
-        "title_edit_branch":"İş yeri düzenle"
+        "title_create":"Şube Oluştur",
+        "title_edit":"Şube Düzenle",
+        "branch_name_label":"Şube Adı",
+        "branch_name_hint":"Şube adı giriniz",
+        "person_price_label":"Kişi Fiyatı",
+        "person_price_hint":"Kişi başı fiyat giriniz",
+        "add_working_hour":"Çalışma Saati Ekle",
+        "empty_working_hours":"Eklenmiş çalışma saati yok",
+        "select_time":"Saat Seçiniz",
+        "already_in_list":"Bu saat zaten ekli",
+        "time" : "Saat: {}"
+    },
+    "branches":{
+        "title":"Şubeler",
+        "no_branches":"Şube bulunamadı",
+        "delete_branch_content":"Şubeyi silmek istediğinize emin misiniz?",
+        "delete_branch_title":"Şubeyi Sil",
+        "create_branch":"Şube Oluştur",
+        
+        "deleted":"Şube silindi",
+        "error_deleting":"Şube silinirken hata oluştu",
+        "branch_updated":"Şube güncellendi",
+        "branch_created":"Şube oluşturuldu"
+    },
+    "create_business":{
+        "title":"İşletme Oluştur",
+        "business_name_label":"İşletme Adı",
+        "business_name_hint":"İşletme adı giriniz",
+        
+        "business_name_empty":"İşletme adı boş olamaz"
+    },
+    "defaults":{
+        "title":"İşletme Varsayılanları"
+    },
+    "expanse_categories":{
+        "title":"Gider Kategorileri",
+        "create_expanse_category":"Gider Kategorisi Oluştur",
+        "category_name_label":"Kategori Adı",
+        
+        "delete_expanse_category_content":"Gider kategorisini silmek istediğinize emin misiniz?",
+        "delete_expanse_category_title":"Gider Kategorisini Sil",
+        "deleted":"Gider kategorisi silindi"
+    },
+    "expanses":{
+        "delete_expanse_content":"Gideri silmek istediğinize emin misiniz?",
+        "delete_expanse_title":"Gideri Sil",
+        "expanse_category":"Kategori: {}",
+        "expanse_amount":"Tutar: {}",
+        "expanse_note":"Not: {}",
+        "no_expanses":"Bugüne ait gider bulunamadı",
+        "fab_text":"Kategoriler" 
+    },
+    "invitations":{
+        "title":"Davetler",
+        "create_invitation":"Davet Oluştur",
+        "all_invitations":"Tüm davetler",
+        "for_who":"Kime",
+        "no_invitations":"Davet bulunamadı",
+        "copied_to_clipboard":"Panoya kopyalandı",
+        "for_whom": "Kime: {}",
+        "invitation_code": "Davet Kodu: {}",
+        "created_at": "Oluşturulma Tarihi: {}",
+        "is_used": "Kullanıldı mı?: {}",
+        "used_date": "Kullanılma Tarihi: {}",
+        "delete_invitation_content":"Daveti silmek istediğinize emin misiniz?",
+        "delete_invitation_title":"Daveti Sil",
+        
+        "invitation_created":"Davet oluşturuldu",
+        "invitation_could_not_be_created":"Davet şu sebepten dolayı oluşturulamadı: {}",
+        "invitation_deleted":"Davet silindi",
+        "invitation_could_not_be_deleted":"Davet şu sebepten dolayı silinemedi: {}"
+    },
+    "session_history":{
+        "no_sessions":"Seans bulunamadı",
+        "session_deleted":"Silinen seans",
+        "session_updated":"Güncellenen seans (Soldan sağa)",
+        "time":"Saat: {}",
+        "by":"Değişikliği yapan kişi: {}",
+        "branch":"Şube: {}",
+        "date":"Tarih: {}",
+        "name":"İsim: {}",
+        "phone":"Telefon: {}",
+        "total":"Toplam: {}",
+        "extra":"Ekstra: {}",
+        "discount":"İndirim: {}",
+        "person_count":"Kişi sayısı: {}",
+        "note":"Not: {}",
+        "added_by":"Ekleyen: {}"
+    },
+    "statistics":{
+    },
+    "workers":{
+        "title":"Çalışanlar",
+        "invitations":"Davetler",
+        "delete_worker_content":"Çalışanı silmek istediğinize emin misiniz?",
+        "delete_worker_title":"Çalışanı Sil",
+        
+        "user_deleted":"Kullanıcı silindi",
+        "user_could_not_be_deleted":"Kullanıcı şu sebepten dolayı silinemedi: {}"
+    },
+
+    
+    
+    "forgot_password":{
+        "title": "Şifremi Unuttum",
+        "email_label": "E-posta adresiniz",
+        "reset_button": "Şifremi Sıfırla",
+        "reset_success_message": "Şifre sıfırlama maili gönderildi."
+    },
+    "login":{
+        "username_label": "Kullanıcı Adı",
+        "username_hint": "Kullanıcı adınızı girin",
+        "password_label": "Şifre",
+        "password_hint": "Şifrenizi girin",
+        "login_button": "Giriş Yap",
+        "forgot_password_button": "Şifremi Unuttum",
+        "no_account_message": "Hesabınız yok mu?",
+        "register_button": "Kayıt Ol",
+        "settings_button": "Ayarlar",
+        "login_success_message": "Giriş başarılı"
+    },
+    "register":{
+        "title": "Kayıt Ol",
+        "email_label": "E-Posta Adresi",
+        "email_hint": "ornek@ornek.com",
+        "password_label": "Şifre",
+        "password_hint": "******",
+        "show_password_button": "Şifreyi Göster",
+        "name_label": "İsim",
+        "name_hint": "İsim giriniz",
+        "register_button": "Kayıt Ol"
+    },
+    "splash":{
+        "version":"Versiyon: {}"
+    },
+
+    
+    "add_expanse":{
+        "title": "Gider Ekle",
+        "amount_label": "Tutar",
+        "amount_hint": "Lütfen tutar girin",
+        "amount_error_message": "Lütfen geçerli bir tutar girin",
+        "category_label": "Kategori",
+        "category_hint": "Lütfen bir kategori seçin",
+        "category_error_message": "Lütfen bir kategori seçin",
+        "note_label": "Not",
+        "note_hint": "Lütfen bir not girin",
+
+        "added_successfully": "Gider başarıyla eklendi"
+    },
+    "home":{
+        "add_expanse": "Gider Ekle",
+        "no_branches_found": "Şube bulunamadı",
+        "profile": "Profil",
+        "settings": "Ayarlar",
+        "exit": "Çıkış",
+        "calendar_today": "Tarih Seç",
+        
+        "call": "Ara",
+        "name_label": "İsim: {}",
+        "person_count_label": "Kişi Sayısı: {}",
+        "phone_label": "Telefon: {}",
+        "note_label": "Not: {}",
+        "added_by_label": "Ekleyen: {}",
+        
+        "business_management": "İşletme Yönetimi",
+        "expanses": "Giderler",
+        "workers": "Çalışanlar",
+        "branches": "Şubeler",
+        "session_history": "Seans Geçmişi"
+    },
+    "session":{
+        "title_add": "Seans Ekle",
+        "title_edit": "Seans Düzenle",
+        "name_label": "İsim",
+        "name_hint": "İsim giriniz",
+        "person_count_label": "Kişi Sayısı",
+        "person_count_hint": "Kişi sayısı giriniz",
+        "person_count_error_message": "Lütfen geçerli bir kişi sayısı giriniz",
+        "phone_label": "Telefon Numarası",
+        "phone_hint": "Telefon numarası giriniz",
+        "note_label": "Not",
+        "note_hint": "Not giriniz",
+        "extra_label": "Ekstra",
+        "extra_hint": "Ekstra giriniz",
+        "extra_error_message": "Lütfen geçerli bir ekstra giriniz",
+        "discount_label": "İndirim",
+        "discount_hint": "İndirim giriniz",
+        "discount_error_message": "Lütfen geçerli bir indirim giriniz",
+        "update_session_popup_title": "Seansı Güncelle",
+        "update_session_popup_content": "Seansı güncellemek istediğinize emin misiniz?",
+
+        "added_successfully": "Seans başarıyla eklendi",
+        "updated_successfully": "Seans başarıyla güncellendi",
+        "deleted_successfully": "Seans başarıyla silindi",
+        "could_not_be_saved": "Seans şu sebepten dolayı kaydedilemedi: {}",
+        "could_not_be_deleted": "Seans şu sebepten dolayı silinemedi: {}"
+    },
+
+    
+    "settings":{
+        "title": "Ayarlar",
+        "language": "Dil"
+    },
+
+    
+    "account_setup":{
+        "title": "Hesap oluştur",
+        "business_owner": "İşletme sahibi",
+        "worker": "Çalışan",
+        "invitation_code_label": "Davet kodu",
+        "invitation_code_hint": "Davet kodunu giriniz",
+        "next_step_hint":"Bir sonraki adımdan sonra soldaki menüden işletme oluşturabilirsiniz",
+        "logout_button": "Çıkış Yap",
+
+        "invalid_code": "Geçersiz davet kodu",
+        "joined_successfully": "Başarıyla bir işletmeye katıldınız"
+    },
+    "profile":{
     }
+
 }

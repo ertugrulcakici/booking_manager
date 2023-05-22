@@ -1,6 +1,8 @@
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/view/main/add_expanse/add_expanse_notifier.dart';
 import 'package:dropdown_textfield/dropdown_textfield.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,7 +35,7 @@ class _AddExpanseViewState extends ConsumerState<AddExpanseView> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _fab(),
-      appBar: AppBar(title: const Text("Add Expanse")),
+      appBar: AppBar(title: Text(LocaleKeys.add_expanse_title.tr())),
       body: _body(),
     );
   }
@@ -71,17 +73,18 @@ class _AddExpanseViewState extends ConsumerState<AddExpanseView> {
   Widget _amount() {
     return TextFormField(
       keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        labelText: "Amount",
+      decoration: InputDecoration(
+        labelText: LocaleKeys.add_expanse_amount_label.tr(),
+        hintText: LocaleKeys.add_expanse_amount_hint.tr(),
       ),
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Please enter amount";
+          return LocaleKeys.add_expanse_amount_error_message.tr();
         }
         try {
           double.parse(value);
         } catch (e) {
-          return "Please enter valid amount";
+          return LocaleKeys.add_expanse_amount_error_message.tr();
         }
         return null;
       },
@@ -105,10 +108,13 @@ class _AddExpanseViewState extends ConsumerState<AddExpanseView> {
               name: expanseCategoryModel.name, value: expanseCategoryModel.uid))
           .toList(),
       enableSearch: true,
+      textFieldDecoration: InputDecoration(
+        labelText: LocaleKeys.add_expanse_category_label.tr(),
+      ),
       clearOption: true,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return "Please select category";
+          return LocaleKeys.add_expanse_category_error_message.tr();
         }
         return null;
       },
@@ -122,8 +128,9 @@ class _AddExpanseViewState extends ConsumerState<AddExpanseView> {
   Widget _note() {
     return TextFormField(
       maxLines: 3,
-      decoration: const InputDecoration(
-        labelText: "Note",
+      decoration: InputDecoration(
+        labelText: LocaleKeys.add_expanse_note_label.tr(),
+        hintText: LocaleKeys.add_expanse_note_hint.tr(),
       ),
       onSaved: (newValue) {
         ref.read(provider).formData["note"] = newValue;
@@ -139,7 +146,7 @@ class _AddExpanseViewState extends ConsumerState<AddExpanseView> {
           ref.read(provider).addExpanse();
         }
       },
-      label: const Text("Add"),
+      label: Text(LocaleKeys.add.tr()),
       icon: const Icon(Icons.add),
     );
   }

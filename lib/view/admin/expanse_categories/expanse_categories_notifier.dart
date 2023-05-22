@@ -1,9 +1,10 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
-import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/expanse_category_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ExpanseCategoriesNotifier extends ChangeNotifier
@@ -59,42 +60,26 @@ class ExpanseCategoriesNotifier extends ChangeNotifier
     try {
       isLoading = true;
 
-      // check if category is used in expanses
-      final expansesSnapshot = await FirebaseFirestore.instance
+      final batch = FirebaseFirestore.instance.batch();
+      // delete category
+      batch.delete(FirebaseFirestore.instance
+          .collection("expanse_categories")
+          .doc(category.uid));
+      categories.remove(category);
+
+      // delete expanses
+      final allExpanses = await FirebaseFirestore.instance
           .collection("expanses")
           .where("categoryUid", isEqualTo: category.uid)
-          .limit(1)
           .get();
+      for (var queryDoc in allExpanses.docs) {
+        batch.delete(queryDoc.reference);
+      }
 
-      await PopupHelper.instance.showOkCancelDialog(
-          title: "Are you sure you want to delete this category?",
-          content: "All expanses related to this category will be deleted too.",
-          onOk: () async {
-            final batch = FirebaseFirestore.instance.batch();
-            // delete category
-            batch.delete(FirebaseFirestore.instance
-                .collection("expanse_categories")
-                .doc(category.uid));
-            categories.remove(category);
-
-            // delete expanses
-            final allExpanses = await FirebaseFirestore.instance
-                .collection("expanses")
-                .where("categoryUid", isEqualTo: category.uid)
-                .get();
-            for (var queryDoc in allExpanses.docs) {
-              batch.delete(queryDoc.reference);
-            }
-
-            // commit batch
-            await batch.commit();
-            PopupHelper.instance
-                .showSnackBar(message: "Category deleted successfully");
-            NavigationService.back();
-          },
-          onCancel: () {
-            NavigationService.back();
-          });
+      // commit batch
+      await batch.commit();
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.expanse_categories_deleted.tr());
     } catch (e) {
       errorMessage = e.toString();
     } finally {

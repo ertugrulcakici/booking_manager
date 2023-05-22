@@ -1,4 +1,7 @@
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/view/admin/create_business/create_business_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,8 +16,8 @@ class CreateBusinessView extends ConsumerStatefulWidget {
 class _CreateBusinessViewState extends ConsumerState<CreateBusinessView> {
   ChangeNotifierProvider<CreateBusinessNotifier> provider =
       ChangeNotifierProvider((ref) => CreateBusinessNotifier());
-  final TextEditingController _businessNameController =
-      TextEditingController(text: "27. Region Horror House");
+  final TextEditingController _businessNameController = TextEditingController(
+      text: kDebugMode ? "27. Region Horror House" : null);
 
   @override
   void dispose() {
@@ -25,7 +28,7 @@ class _CreateBusinessViewState extends ConsumerState<CreateBusinessView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Create business")),
+      appBar: AppBar(title: Text(LocaleKeys.create_business_title.tr())),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ref.read(provider).save(businessName: _businessNameController.text);
@@ -66,10 +69,10 @@ class _CreateBusinessViewState extends ConsumerState<CreateBusinessView> {
             const SizedBox(height: 24.0),
             TextField(
               controller: _businessNameController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Business name",
-                hintText: "Enter business name",
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: LocaleKeys.create_business_business_name_label.tr(),
+                hintText: LocaleKeys.create_business_business_name_hint.tr(),
               ),
             ),
           ],

@@ -1,9 +1,13 @@
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/user_model.dart';
 import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/invitations/invitations_view.dart';
 import 'package:bookingmanager/view/admin/workers/workers_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,12 +38,10 @@ class _WorkersViewState extends ConsumerState<WorkersView> {
         onPressed: () {
           NavigationService.toPage(const InvitationsView());
         },
-        label: const Text("Invitations"),
+        label: Text(LocaleKeys.workers_invitations.tr()),
         icon: const Icon(Icons.list),
       ),
-      appBar: AppBar(
-        title: const Text("Workers"),
-      ),
+      appBar: AppBar(title: Text(LocaleKeys.workers_title.tr())),
       body: _body(),
     );
   }
@@ -61,40 +63,25 @@ class _WorkersViewState extends ConsumerState<WorkersView> {
         return Card(
           child: ListTile(
               title: Text(user.name),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: () {
-                  _deleteUser(user);
-                },
-              )),
+              trailing: AuthService.instance.user!.uid != user.uid
+                  ? IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        _deleteUser(user);
+                      },
+                    )
+                  : null),
         );
       },
     );
   }
 
   Future<void> _deleteUser(UserModel user) async {
-    bool? delete = await showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Delete user"),
-            content: const Text("Are you sure you want to delete this user?"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, false);
-                  },
-                  child: const Text("Cancel")),
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  child: const Text("Delete")),
-            ],
-          );
+    PopupHelper.instance.showOkCancelDialog(
+        title: LocaleKeys.workers_delete_worker_title.tr(),
+        content: LocaleKeys.workers_delete_worker_content.tr(),
+        onOk: () {
+          ref.read(provider).deleteUser(user);
         });
-    if (delete == true) {
-      ref.read(provider).deleteUser(user);
-    }
   }
 }

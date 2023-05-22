@@ -1,3 +1,6 @@
+import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,17 +16,15 @@ class _ForgotPasswordViewState extends ConsumerState<ForgotPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Şifremi Unuttum'),
-      ),
+      appBar: AppBar(title: Text(LocaleKeys.forgot_password_title.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextField(
+            TextField(
               decoration: InputDecoration(
-                labelText: 'E-posta adresiniz',
+                labelText: LocaleKeys.forgot_password_email_label.tr(),
               ),
             ),
             const SizedBox(height: 16.0),
@@ -31,13 +32,11 @@ class _ForgotPasswordViewState extends ConsumerState<ForgotPasswordView> {
               onPressed: () {
                 // Burada mail gönderme işlemi yapılabilir.
                 // Şimdilik sadece mesaj verelim.
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Şifre sıfırlama maili gönderildi.'),
-                  ),
-                );
+                PopupHelper.instance.showSnackBar(
+                    message:
+                        LocaleKeys.forgot_password_reset_success_message.tr());
               },
-              child: const Text('Şifremi Sıfırla'),
+              child: Text(LocaleKeys.forgot_password_reset_button.tr()),
             ),
           ],
         ),

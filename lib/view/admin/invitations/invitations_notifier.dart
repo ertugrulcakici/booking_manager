@@ -1,8 +1,10 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/invitation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class InvitationsNotifier extends ChangeNotifier with LoadingNotifierMixin {
@@ -48,11 +50,13 @@ class InvitationsNotifier extends ChangeNotifier with LoadingNotifierMixin {
           .doc(invitationModel.uid);
       await newInvDoc.set(invitationModel.toJson());
       invitations.add(invitationModel);
-      PopupHelper.instance
-          .showSnackBar(message: "Invitation created successfully");
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.invitations_invitation_created.tr());
     } catch (e) {
       PopupHelper.instance.showSnackBar(
-          message: "Invitation couldn't be created due to : $e", error: true);
+          message: LocaleKeys.invitations_invitation_could_not_be_created
+              .tr(args: [e.toString()]),
+          error: true);
     } finally {
       isLoading = false;
     }
@@ -66,11 +70,13 @@ class InvitationsNotifier extends ChangeNotifier with LoadingNotifierMixin {
           .doc(invitationModel.uid)
           .delete();
       invitations.remove(invitationModel);
-      PopupHelper.instance
-          .showSnackBar(message: "Invitation deleted successfully");
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.invitations_invitation_deleted.tr());
     } catch (e) {
       PopupHelper.instance.showSnackBar(
-          message: "Invitation couldn't be deleted due to : $e", error: true);
+          message: LocaleKeys.invitations_invitation_could_not_be_deleted
+              .tr(args: [e.toString()]),
+          error: true);
     } finally {
       isLoading = false;
     }
