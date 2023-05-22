@@ -1,12 +1,12 @@
-import 'dart:developer';
-
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/mixins/loading_notifier_mixin.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/view/admin/branch/branch_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BranchesNotifier extends ChangeNotifier with LoadingNotifierMixin {
@@ -26,7 +26,6 @@ class BranchesNotifier extends ChangeNotifier with LoadingNotifierMixin {
         final branch =
             BranchModel.fromJson(element.data() as Map<String, dynamic>);
         branches.add(branch);
-        log(branch.toString());
       }
     } catch (e) {
       errorMessage = e.toString();
@@ -54,8 +53,8 @@ class BranchesNotifier extends ChangeNotifier with LoadingNotifierMixin {
       await businessReference.update({
         "branchesUidList": FieldValue.arrayUnion([branch.uid])
       });
-
-      await getData();
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.branches_branch_created.tr());
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -75,7 +74,8 @@ class BranchesNotifier extends ChangeNotifier with LoadingNotifierMixin {
           .collection("branches")
           .doc(branch.uid)
           .set(newBranch.toJson(), SetOptions(merge: true));
-      await getData();
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.branches_branch_updated.tr());
     } catch (e) {
       errorMessage = e.toString();
     } finally {
@@ -110,11 +110,12 @@ class BranchesNotifier extends ChangeNotifier with LoadingNotifierMixin {
         }
         return Future.value(true);
       });
-      await getData();
-      PopupHelper.instance.showSnackBar(message: "Deleted");
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.branches_deleted.tr());
     } catch (e) {
       errorMessage = e.toString();
-      PopupHelper.instance.showSnackBar(message: "Error deleting branch");
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.branches_error_deleting.tr());
     } finally {
       isLoading = false;
     }

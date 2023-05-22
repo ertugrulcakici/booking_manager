@@ -1,8 +1,10 @@
 import 'package:bookingmanager/core/services/cache/cache_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/firebase_options.dart';
 import 'package:bookingmanager/product/constants/app_constants.dart';
 import 'package:bookingmanager/view/auth/splash/splash_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,7 +20,14 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(const App());
+  await EasyLocalization.ensureInitialized();
+  runApp(EasyLocalization(
+      supportedLocales: const [AppConstants.enLocale, AppConstants.trLocale],
+      path: AppConstants.pathLocale,
+      saveLocale: true,
+      fallbackLocale: AppConstants.enLocale,
+      useOnlyLangCode: true,
+      child: const App()));
 }
 
 class App extends StatelessWidget {
@@ -31,10 +40,13 @@ class App extends StatelessWidget {
         designSize:
             const Size(AppConstants.designWidth, AppConstants.designHeight),
         builder: (context, child) => MaterialApp(
+          locale: context.locale,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.dark,
           navigatorKey: NavigationService.navigatorKey,
-          title: 'Booking Manager',
+          title: LocaleKeys.app_name.tr(),
           theme: ThemeData(
             scaffoldBackgroundColor: Colors.white,
             primarySwatch: Colors.blue,

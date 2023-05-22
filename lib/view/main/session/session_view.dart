@@ -1,8 +1,10 @@
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
 import 'package:bookingmanager/view/main/session/session_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,7 +59,10 @@ class _SessionViewState extends ConsumerState<SessionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Session")),
+      appBar: AppBar(
+          title: Text(widget.sessionModel != null
+              ? LocaleKeys.session_title_edit.tr()
+              : LocaleKeys.session_title_add.tr())),
       floatingActionButton: _fab(),
       body: _body(),
     );
@@ -77,9 +82,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                   onSaved: (value) {
                     ref.read(provider).formData["name"] = value;
                   },
-                  decoration: const InputDecoration(
-                    labelText: "Name",
-                  ),
+                  decoration: InputDecoration(
+                      labelText: LocaleKeys.session_name_label.tr(),
+                      hintText: LocaleKeys.session_name_hint.tr()),
                 ),
                 Row(
                   children: [
@@ -105,10 +110,12 @@ class _SessionViewState extends ConsumerState<SessionView> {
                           try {
                             int.parse(newValue);
                           } catch (e) {
-                            return "Please enter a valid number";
+                            return LocaleKeys.session_person_count_error_message
+                                .tr();
                           }
                         } else {
-                          return "Please enter a valid number";
+                          return LocaleKeys.session_person_count_error_message
+                              .tr();
                         }
                         return null;
                       },
@@ -119,9 +126,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                         ref.read(provider).formData["personCount"] =
                             int.parse(value!);
                       },
-                      decoration: const InputDecoration(
-                        labelText: "Person count",
-                      ),
+                      decoration: InputDecoration(
+                          labelText: LocaleKeys.session_person_count_label.tr(),
+                          hintText: LocaleKeys.session_person_count_hint.tr()),
                     )),
                     IconButton(
                         onPressed: () {
@@ -140,9 +147,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                   onSaved: (value) {
                     ref.read(provider).formData["phone"] = value;
                   },
-                  decoration: const InputDecoration(
-                    labelText: "Phone number",
-                  ),
+                  decoration: InputDecoration(
+                      labelText: LocaleKeys.session_phone_label.tr(),
+                      hintText: LocaleKeys.session_phone_hint.tr()),
                 ),
                 TextFormField(
                   controller: _extraController,
@@ -152,7 +159,7 @@ class _SessionViewState extends ConsumerState<SessionView> {
                       try {
                         double.parse(newValue);
                       } catch (e) {
-                        return "Please enter a valid number";
+                        return LocaleKeys.session_extra_error_message.tr();
                       }
                     }
                     return null;
@@ -169,9 +176,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                     ref.read(provider).formData["extra"] = double.parse(value);
                   },
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: "Extra",
-                  ),
+                  decoration: InputDecoration(
+                      labelText: LocaleKeys.session_extra_label.tr(),
+                      hintText: LocaleKeys.session_extra_hint.tr()),
                 ),
                 TextFormField(
                   validator: (value) {
@@ -180,7 +187,7 @@ class _SessionViewState extends ConsumerState<SessionView> {
                       try {
                         double.parse(newValue);
                       } catch (e) {
-                        return "Please enter a valid number";
+                        return LocaleKeys.session_discount_error_message.tr();
                       }
                     }
                     return null;
@@ -199,9 +206,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                         double.parse(value);
                   },
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: "Discount",
-                  ),
+                  decoration: InputDecoration(
+                      labelText: LocaleKeys.session_discount_label.tr(),
+                      hintText: LocaleKeys.session_discount_hint.tr()),
                 ),
                 TextFormField(
                   controller: _noteController,
@@ -209,9 +216,9 @@ class _SessionViewState extends ConsumerState<SessionView> {
                     ref.read(provider).formData["note"] = value;
                   },
                   maxLines: 3,
-                  decoration: const InputDecoration(
-                    labelText: "Note",
-                  ),
+                  decoration: InputDecoration(
+                      labelText: LocaleKeys.session_note_label.tr(),
+                      hintText: LocaleKeys.session_note_hint.tr()),
                 ),
                 DropdownButtonFormField<BranchModel?>(
                   value: widget.selectedBranch,
@@ -270,15 +277,16 @@ class _SessionViewState extends ConsumerState<SessionView> {
         heroTag: "save",
         key: const Key("save"),
         onPressed: () {
-          if (_formKey.currentState!.validate()) {
-            _formKey.currentState!.save();
-            ref.read(provider).save();
+          if (widget.sessionModel != null) {
+            PopupHelper.instance.showOkCancelDialog(
+                title: LocaleKeys.session_update_session_popup_title.tr(),
+                content: LocaleKeys.session_update_session_popup_content.tr(),
+                onOk: _save);
           } else {
-            PopupHelper.instance
-                .showSnackBar(message: "Please fill all fields", error: true);
+            _save();
           }
         },
-        label: const Text("Save"),
+        label: Text(LocaleKeys.save.tr()),
         icon: const Icon(Icons.check)));
     if (widget.sessionModel != null) {
       fabWidgets.add(const SizedBox(height: 10));
@@ -286,7 +294,7 @@ class _SessionViewState extends ConsumerState<SessionView> {
           heroTag: "delete",
           key: const Key("delete"),
           onPressed: ref.read(provider).deleteSession,
-          label: const Text("Delete"),
+          label: Text(LocaleKeys.delete.tr()),
           icon: const Icon(Icons.delete)));
     }
     return Column(
@@ -294,5 +302,12 @@ class _SessionViewState extends ConsumerState<SessionView> {
       mainAxisAlignment: MainAxisAlignment.end,
       children: fabWidgets,
     );
+  }
+
+  void _save() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      ref.read(provider).save();
+    }
   }
 }

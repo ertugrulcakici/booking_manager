@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/session_model.dart';
@@ -9,12 +10,13 @@ import 'package:bookingmanager/product/widgets/error_widget.dart';
 import 'package:bookingmanager/product/widgets/loading_widget.dart';
 import 'package:bookingmanager/view/admin/branches/branches_view.dart';
 import 'package:bookingmanager/view/admin/expanses/expanses_view.dart';
-import 'package:bookingmanager/view/admin/logs/logs_view.dart';
-import 'package:bookingmanager/view/admin/statistics/statistics_view.dart';
+import 'package:bookingmanager/view/admin/session_history/session_history_view.dart';
 import 'package:bookingmanager/view/admin/workers/workers_view.dart';
+import 'package:bookingmanager/view/main/add_expanse/add_expanse_view.dart';
 import 'package:bookingmanager/view/main/home/home_notifier.dart';
 import 'package:bookingmanager/view/main/session/session_view.dart';
-import 'package:bookingmanager/view/user/profile/profile_view.dart';
+import 'package:bookingmanager/view/settings/settings_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -29,6 +31,7 @@ class HomeView extends ConsumerStatefulWidget {
 class _HomeViewState extends ConsumerState<HomeView>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final ChangeNotifierProvider<HomeNotifier> provider;
+
   @override
   void initState() {
     provider = ChangeNotifierProvider((ref) => HomeNotifier(this));
@@ -63,13 +66,6 @@ class _HomeViewState extends ConsumerState<HomeView>
     }
 
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     log(ref.watch(provider).activeBusiness.toString());
-      //     log(ref.watch(provider).branches.length.toString());
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
       drawer: _drawer(),
       appBar: _appBar(),
       body: _content(),
@@ -113,32 +109,19 @@ class _HomeViewState extends ConsumerState<HomeView>
     // header
     options.add(DrawerHeader(
       child: Center(child: Text(AuthService.instance.user!.name)),
-      // Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     const SizedBox(
-      //       height: 50,
-      //       width: 50,
-      //       child: Placeholder(
-      //         fallbackHeight: 50,
-      //         fallbackWidth: 50,
-      //         strokeWidth: 0.5,
-      //       ),
-      //     ),
-      //     const SizedBox(height: 10),
-      //     Text(AuthService.instance.firebaseUser!.displayName.toString())
-      //   ],
-      // ),
     ));
     // middle options
     List<Widget> middleOptions = [];
-    // add expanse
-    // middleOptions.add(ListTile(
-    //   title: TextButton.icon(
-    //       icon: const Icon(Icons.add),
-    //       onPressed: () => NavigationService.toPage(const AddExpanseView()),
-    //       label: const Text("Add expanse")),
-    // ));
+    middleOptions.add(
+      ListTile(
+        title: TextButton.icon(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              NavigationService.toPage(const AddExpanseView());
+            },
+            label: Text(LocaleKeys.home_add_expanse.tr())),
+      ),
+    );
 
     // business settings
     if (ref
@@ -146,31 +129,38 @@ class _HomeViewState extends ConsumerState<HomeView>
         .activeBusiness!
         .adminsUidList
         .contains(AuthService.instance.user!.uid)) {
-      middleOptions.add(ExpansionTile(
-        leading: const Icon(Icons.business),
-        title: const Text("Business management"),
-        children: [
-          ListTile(
-              title: const Text("Expanses"),
-              onTap: () => NavigationService.toPage(const ExpansesView()),
-              leading: const Icon(Icons.money)),
-          ListTile(
-              title: const Text("Statistics"),
-              onTap: () => NavigationService.toPage(const StatisticsView()),
-              leading: const Icon(Icons.bar_chart)),
-          ListTile(
-              title: const Text("Workers"),
-              onTap: () => NavigationService.toPage(const WorkersView()),
-              leading: const Icon(Icons.people)),
-          ListTile(
-              title: const Text("Branches"),
-              onTap: () => NavigationService.toPage(const BranchesView()),
-              leading: const Icon(Icons.business)),
-          ListTile(
-              title: const Text("Logs"),
-              onTap: () => NavigationService.toPage(const LogsView()),
-              leading: const Icon(Icons.history)),
-        ],
+      middleOptions.add(Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: ExpansionTile(
+          leading: const Icon(Icons.business),
+          title: Text(LocaleKeys.home_business_management.tr()),
+          children: [
+            ListTile(
+                title: Text(LocaleKeys.home_expanses.tr()),
+                onTap: () => NavigationService.toPage(const ExpansesView()),
+                leading: const Icon(Icons.money)),
+            // ListTile(
+            //     title: const Text("Statistics"),
+            //     onTap: () => NavigationService.toPage(const StatisticsView()),
+            //     leading: const Icon(Icons.bar_chart)),
+            ListTile(
+                title: Text(LocaleKeys.home_workers.tr()),
+                onTap: () => NavigationService.toPage(const WorkersView()),
+                leading: const Icon(Icons.people)),
+            ListTile(
+                title: Text(LocaleKeys.home_branches.tr()),
+                onTap: () => NavigationService.toPage(const BranchesView()),
+                leading: const Icon(Icons.business)),
+            ListTile(
+                title: Text(LocaleKeys.home_session_history.tr()),
+                onTap: () => NavigationService.toPage(SessionHistoryView(
+                    activeBusiness: ref.watch(provider).activeBusiness!,
+                    branches: ref.watch(provider).activeBusiness!.branches)),
+                leading: const Icon(Icons.history)),
+          ],
+        ),
       ));
     }
     options.add(Expanded(
@@ -180,27 +170,38 @@ class _HomeViewState extends ConsumerState<HomeView>
       ),
     ));
     // bottom options
-    options.add(ListTile(
-      title: TextButton.icon(
-          icon: const Icon(Icons.person),
-          onPressed: () {
-            NavigationService.toPage(const ProfileView());
-          },
-          label: const Text("Profile")),
-    ));
+    // options.add(ListTile(
+    //   title: TextButton.icon(
+    //       icon: const Icon(Icons.person),
+    //       onPressed: () {
+    //         NavigationService.toPage(const ProfileView());
+    //       },
+    //       label: Text(LocaleKeys.home_profile.tr())),
+    // ));
+    options.add(
+      ListTile(
+        title: TextButton.icon(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              NavigationService.toPage(const SettingsView());
+            },
+            label: Text(LocaleKeys.home_settings.tr())),
+        onTap: AuthService.signOut,
+      ),
+    );
     options.add(ListTile(
         title: TextButton.icon(
             icon: const Icon(Icons.exit_to_app),
             onPressed: AuthService.signOut,
-            label: const Text("Exit")),
+            label: Text(LocaleKeys.home_exit.tr())),
         onTap: AuthService.signOut));
     return options;
   }
 
   Widget _content() {
-    if (ref.watch(provider).branches.isEmpty) {
+    if (ref.watch(provider).activeBusiness!.branches.isEmpty) {
       return CustomErrorWidget(
-          errorMessage: "No branches found",
+          errorMessage: LocaleKeys.home_no_branches_found.tr(),
           onPressed: ref.read(provider).getHomeData);
     }
     return Column(
@@ -211,15 +212,21 @@ class _HomeViewState extends ConsumerState<HomeView>
           padding: const EdgeInsets.all(8.0),
           labelStyle: const TextStyle(fontSize: 20),
           labelPadding: const EdgeInsets.all(8.0),
-          tabs: ref.watch(provider).branches.map((e) => Text(e.name)).toList(),
+          tabs: ref
+              .watch(provider)
+              .activeBusiness!
+              .branches
+              .map((e) => Text(e.name))
+              .toList(),
         ),
         Expanded(
             child: DefaultTabController(
-                length: ref.watch(provider).branches.length,
+                length: ref.watch(provider).activeBusiness!.branches.length,
                 child: TabBarView(
                   controller: ref.watch(provider).tabController,
                   children: ref
                       .watch(provider)
+                      .activeBusiness!
                       .branches
                       .map((branch) => _branchTab(branch))
                       .toList(),
@@ -232,10 +239,8 @@ class _HomeViewState extends ConsumerState<HomeView>
     return GridView.builder(
       gridDelegate:
           const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (context, index) => Card(
-        child: _sessionItem(
-            branchModel: branch, workingHour: branch.workingHoursList[index]),
-      ),
+      itemBuilder: (context, index) => _sessionItem(
+          branchModel: branch, workingHour: branch.workingHoursList[index]),
       itemCount: branch.workingHoursList.length,
     );
   }
@@ -256,10 +261,11 @@ class _HomeViewState extends ConsumerState<HomeView>
           time: workingHour,
           sessionModel: sessionModel,
           selectedBranch: branchModel,
-          branches: ref.watch(provider).branches,
+          branches: ref.watch(provider).activeBusiness!.branches,
         ));
       },
       child: Container(
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10),
@@ -342,15 +348,22 @@ class _HomeViewState extends ConsumerState<HomeView>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-                "Name: ${sessionModel.name.isEmpty ? "-" : sessionModel.name}"),
-            Text("Person count: ${sessionModel.personCount}"),
-            Text(
-                "Phone: ${sessionModel.phone.isEmpty ? "-" : sessionModel.phone}"),
-            Text(
-                "Note: ${sessionModel.note.isEmpty ? "-" : sessionModel.note}"),
-            Text(
-                "Added by: ${ref.watch(provider).activeBusiness!.users.firstWhere((element) => element.uid == sessionModel.addedBy).name}"),
+            Text(LocaleKeys.home_name_label.tr(
+                args: [sessionModel.name.isEmpty ? "-" : sessionModel.name])),
+            Text(LocaleKeys.home_person_count_label
+                .tr(args: [sessionModel.personCount.toString()])),
+            Text(LocaleKeys.home_phone_label.tr(
+                args: [sessionModel.phone.isEmpty ? "-" : sessionModel.phone])),
+            Text(LocaleKeys.home_note_label.tr(
+                args: [sessionModel.note.isEmpty ? "-" : sessionModel.note])),
+            Text(LocaleKeys.home_added_by_label.tr(args: [
+              ref
+                  .watch(provider)
+                  .activeBusiness!
+                  .users
+                  .firstWhere((element) => element.uid == sessionModel.addedBy)
+                  .name
+            ])),
           ],
         ),
       ),

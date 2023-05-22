@@ -16,9 +16,7 @@ mixin LoadingNotifierMixin on ChangeNotifier {
   }
 
   // error
-
   bool _isError = false;
-
   bool get isError => _isError;
 
   set isError(bool value) {
@@ -32,7 +30,6 @@ mixin LoadingNotifierMixin on ChangeNotifier {
   set errorMessage(String value) {
     _errorMessage = value;
     isError = true;
-    // notifyListeners();
   }
 
   String get errorMessage => _errorMessage;

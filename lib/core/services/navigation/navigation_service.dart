@@ -39,10 +39,16 @@ abstract class NavigationService {
   }
 
   // back if can
-
   static void back({Object? data}) {
     if (navigatorKey.currentState!.canPop()) {
       navigatorKey.currentState!.pop(data);
+    }
+  }
+
+  // back to root
+  static void backToRoot() {
+    if (navigatorKey.currentState!.canPop()) {
+      navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
   }
 }

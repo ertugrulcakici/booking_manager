@@ -10,23 +10,27 @@ class SessionModel extends HiveObject {
   @HiveField(1)
   int personCount;
   @HiveField(2)
-  String date;
+  double extra;
   @HiveField(3)
-  String time;
+  double discount;
   @HiveField(4)
-  double extra = 0;
-  @HiveField(5)
-  double discount = 0;
-  @HiveField(6)
   String name;
-  @HiveField(7)
+  @HiveField(5)
   String phone;
-  @HiveField(8)
+  @HiveField(6)
   String branchUid;
-  @HiveField(9)
+  @HiveField(7)
   String note;
-  @HiveField(10)
+  @HiveField(8)
   String uid;
+  @HiveField(9)
+  double subTotal;
+  @HiveField(10)
+  double total;
+  @HiveField(11)
+  String date;
+  @HiveField(12)
+  String time;
 
   int get timestamp => DateTime(
         int.parse(date.split("/")[0]),
@@ -48,6 +52,8 @@ class SessionModel extends HiveObject {
     required this.branchUid,
     this.note = "not yok",
     required this.uid,
+    this.subTotal = 0,
+    this.total = 0,
   });
 
   factory SessionModel.fromJson(Map<String, dynamic> json) {
@@ -56,13 +62,15 @@ class SessionModel extends HiveObject {
       personCount: json['personCount'],
       date: json['date'],
       time: json['time'],
-      extra: json['extra'],
-      discount: json['discount'],
+      extra: json['extra'] ?? 0,
+      discount: json['discount'] ?? 0,
       name: json['name'],
       phone: json['phone'],
       branchUid: json['branchUid'],
       note: json['note'],
       uid: json['uid'],
+      subTotal: json['subTotal'] ?? 0,
+      total: json['total'] ?? 0,
     );
   }
 
@@ -78,10 +86,28 @@ class SessionModel extends HiveObject {
         'branchUid': branchUid,
         'note': note,
         'uid': uid,
+        'subTotal': subTotal,
+        'total': total,
       };
 
   @override
   String toString() {
-    return 'SessionModel{addedBy: $addedBy, personCount: $personCount, date: $date, time: $time, extra: $extra, discount: $discount, name: $name, phone: $phone, branchUid: $branchUid, note: $note, uid: $uid}';
+    return toJson().toString();
+  }
+
+  isAllFieldsSame(SessionModel sessionModel) {
+    return addedBy == sessionModel.addedBy &&
+        personCount == sessionModel.personCount &&
+        date == sessionModel.date &&
+        time == sessionModel.time &&
+        extra == sessionModel.extra &&
+        discount == sessionModel.discount &&
+        name == sessionModel.name &&
+        phone == sessionModel.phone &&
+        branchUid == sessionModel.branchUid &&
+        total == sessionModel.total &&
+        subTotal == sessionModel.subTotal &&
+        uid == sessionModel.uid &&
+        note == sessionModel.note;
   }
 }

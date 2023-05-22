@@ -1,21 +1,19 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/core/services/navigation/navigation_service.dart';
 import 'package:bookingmanager/product/models/user_model.dart';
 import 'package:bookingmanager/view/auth/login/login_view.dart';
 import 'package:bookingmanager/view/main/home/home_view.dart';
 import 'package:bookingmanager/view/user/account_setup/account_setup_view.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   static bool _inited = false;
   static AuthService get instance => _instance;
-  // static AuthService get instance => AuthService._inited
-  //     ? _instance
-  //     : throw Exception("AuthService not inited");
   static final AuthService _instance = AuthService._();
   AuthService._();
 
@@ -26,10 +24,8 @@ class AuthService {
   static Future<void> init() async {
     if (_inited) return;
     _inited = true;
-    _firebaseUserChangesSubscription = FirebaseAuth.instance
-        .userChanges()
-        // .skip(1)
-        .listen((User? user) async {
+    _firebaseUserChangesSubscription =
+        FirebaseAuth.instance.userChanges().listen((User? user) async {
       if (user == null) {
         await AuthService.signOut(signOutFirebase: false);
       }
@@ -38,12 +34,9 @@ class AuthService {
         .collection("users")
         .doc(AuthService.instance.firebaseUser!.uid)
         .snapshots()
-        // .skip(1)
         .listen((event) {
       if (event.exists) {
-        log("tetiklendi");
         AuthService.instance._user = UserModel.fromJson(event.data()!);
-        log(AuthService.instance._user!.toString());
         if (AuthService.instance._user!.relatedBusinessUid.isEmpty) {
           NavigationService.toPageAndRemoveUntil(const AccountSetupView());
         } else {
@@ -97,32 +90,34 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "user-not-found":
-          PopupHelper.instance
-              .showSnackBar(message: "Kullanıcı bulunamadı", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_user_not_found.tr(),
+              error: true);
           break;
         case "wrong-password":
-          PopupHelper.instance
-              .showSnackBar(message: "Yanlış şifre", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_wrong_password.tr(),
+              error: true);
           break;
         case "invalid-email":
-          PopupHelper.instance
-              .showSnackBar(message: "Geçersiz email", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_invalid_email.tr(), error: true);
           break;
 
         case "user-disabled":
-          PopupHelper.instance
-              .showSnackBar(message: "Kullanıcı devre dışı", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_user_disabled.tr(), error: true);
           break;
 
         default:
-          PopupHelper.instance
-              .showSnackBar(message: "Bilinmeyen hata", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_unknown_error.tr(), error: true);
           break;
       }
       return false;
     } catch (e) {
-      PopupHelper.instance
-          .showSnackBar(message: "Bilinmeyen hata", error: true);
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.auth_service_unknown_error.tr(), error: true);
       return false;
     }
   }
@@ -139,13 +134,14 @@ class AuthService {
 
       _firebaseUserChangesSubscription = null;
       _userChangesSubscription = null;
-      PopupHelper.instance.showSnackBar(message: "Çıkış yapıldı");
+      PopupHelper.instance
+          .showSnackBar(message: LocaleKeys.auth_service_logout_success.tr());
       _inited = false;
       NavigationService.toPageAndRemoveUntil(const LoginView());
       return true;
     } catch (e) {
-      PopupHelper.instance
-          .showSnackBar(message: "Bilinmeyen hata", error: true);
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.auth_service_unknown_error, error: true);
       return false;
     }
   }
@@ -172,30 +168,31 @@ class AuthService {
       switch (e.code) {
         case "email-already-in-use":
           PopupHelper.instance.showSnackBar(
-              message: "Bu email ile kayıt olmuş kullanıcı mevcut",
+              message: LocaleKeys.auth_service_email_already_in_use.tr(),
               error: true);
           break;
         case "invalid-email":
-          PopupHelper.instance
-              .showSnackBar(message: "Geçersiz email", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_invalid_email.tr(), error: true);
           break;
         case "operation-not-allowed":
           PopupHelper.instance.showSnackBar(
-              message: "Bu işlem şu anda devre dışı", error: true);
+              message: LocaleKeys.auth_service_operation_not_allowed.tr(),
+              error: true);
           break;
         case "weak-password":
-          PopupHelper.instance
-              .showSnackBar(message: "Şifre çok zayıf", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_weak_password.tr(), error: true);
           break;
 
         default:
-          PopupHelper.instance
-              .showSnackBar(message: "Bilinmeyen bir hata oluştu", error: true);
+          PopupHelper.instance.showSnackBar(
+              message: LocaleKeys.auth_service_unknown_error.tr(), error: true);
       }
       return false;
     } catch (e) {
-      PopupHelper.instance
-          .showSnackBar(message: "Bilinmeyen bir hata oluştu", error: true);
+      PopupHelper.instance.showSnackBar(
+          message: LocaleKeys.auth_service_unknown_error.tr(), error: true);
       return false;
     }
   }

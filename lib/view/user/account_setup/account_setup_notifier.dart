@@ -1,7 +1,9 @@
 import 'package:bookingmanager/core/helpers/popup_helper.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/product/models/invitation_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AccountSetupNotifier extends ChangeNotifier {
@@ -21,7 +23,7 @@ class AccountSetupNotifier extends ChangeNotifier {
           .where("code", isEqualTo: code)
           .get();
       if (querySnapshot.docs.isEmpty) {
-        throw Exception("Invalid code");
+        throw Exception(LocaleKeys.account_setup_invalid_code.tr());
       } else {
         InvitationModel invitation =
             InvitationModel.fromJson(querySnapshot.docs.first.data());
@@ -46,8 +48,8 @@ class AccountSetupNotifier extends ChangeNotifier {
               {"usedDate": DateTime.now().millisecondsSinceEpoch});
           return Future.value(true);
         });
-        PopupHelper.instance
-            .showSnackBar(message: "You have joined the business successfully");
+        PopupHelper.instance.showSnackBar(
+            message: LocaleKeys.account_setup_joined_successfully.tr());
         return true;
       }
     } catch (e) {

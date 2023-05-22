@@ -1,6 +1,6 @@
 import 'package:bookingmanager/core/services/cache/cache_service.dart';
 import 'package:bookingmanager/product/constants/cache_constants.dart';
-import 'package:bookingmanager/product/models/invitation_model.dart';
+import 'package:bookingmanager/product/models/branch_model.dart';
 import 'package:bookingmanager/product/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -26,6 +26,7 @@ class BusinessModel extends HiveObject {
 
   // generated data
   List<UserModel> users = [];
+  List<BranchModel> branches = [];
 
   BusinessModel({
     required this.uid,
@@ -63,9 +64,7 @@ class BusinessModel extends HiveObject {
       };
 
   @override
-  String toString() {
-    return 'BusinessModel{uid: $uid, name: $name, businessLogoUrl: $businessLogoUrl, workersUidList: $workersUidList, adminsUidList: $adminsUidList, ownerUid: $ownerUid, branchesUidList: $branchesUidList}';
-  }
+  String toString() => toJson().toString();
 
   /// fetch users data
   Future<void> fetchUsers() async {
@@ -84,22 +83,20 @@ class BusinessModel extends HiveObject {
     }
   }
 
-  /// fetch the branches if branches are null
-  // Future<void> fetchBranches() async {
-  //   try {
-  //     branches.clear();
-  //     for (var branchUid in branchesUidList) {
-  //       DocumentSnapshot branchDoc = await FirebaseFirestore.instance
-  //           .collection("branches")
-  //           .doc(branchUid)
-  //           .get();
-  //       if (branchDoc.exists) {
-  //         branches.add(
-  //             BranchModel.fromJson(branchDoc.data() as Map<String, dynamic>));
-  //       }
-  //     }
-  //   } catch (e) {
-  //     throw Exception("Branches couldn't be fetched : $e");
-  //   }
-  // }
+  /// fetch branches data
+  Future<void> fetchBranches() async {
+    try {
+      branches.clear();
+      for (var branchUid in branchesUidList) {
+        DocumentReference? branchRef =
+            FirebaseFirestore.instance.collection("branches").doc(branchUid);
+        final branchData = (await branchRef.get()).data();
+        BranchModel branchModel =
+            BranchModel.fromJson((branchData as Map<String, dynamic>));
+        branches.add(branchModel);
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

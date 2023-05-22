@@ -1,4 +1,7 @@
+import 'package:bookingmanager/core/services/localization/locale_keys.g.dart';
 import 'package:bookingmanager/view/auth/register/register_notifier.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,12 +14,12 @@ class RegisterView extends ConsumerStatefulWidget {
 
 class _RegisterViewState extends ConsumerState<RegisterView> {
   final TextEditingController _emailController =
-      TextEditingController(text: "ertugrul.cakicii@gmail.com");
+      TextEditingController(text: kDebugMode ? "ertu1ertu@hotmail.com" : null);
   final TextEditingController _passwordController =
-      TextEditingController(text: "ertuertu27");
+      TextEditingController(text: kDebugMode ? "googleAccount1" : null);
 
   final TextEditingController _nameController =
-      TextEditingController(text: "Ertuğrul Çakıcı");
+      TextEditingController(text: kDebugMode ? "Google Account" : null);
 
   bool _isObscure = true;
 
@@ -43,9 +46,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kayıt Ol'),
-      ),
+      appBar: AppBar(title: Text(LocaleKeys.register_title.tr())),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -60,9 +61,9 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   },
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'E-Posta Adresi',
-                    hintText: 'ornek@ornek.com',
+                  decoration: InputDecoration(
+                    labelText: LocaleKeys.register_email_label.tr(),
+                    hintText: LocaleKeys.register_email_hint.tr(),
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -73,8 +74,8 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   controller: _passwordController,
                   obscureText: _isObscure,
                   decoration: InputDecoration(
-                      labelText: 'Şifre',
-                      hintText: '******',
+                      labelText: LocaleKeys.register_password_label.tr(),
+                      hintText: LocaleKeys.register_password_hint.tr(),
                       suffixIcon: IconButton(
                           onPressed: () {
                             setState(() {
@@ -84,18 +85,16 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                           icon: const Icon(Icons.remove_red_eye))),
                 ),
                 const SizedBox(height: 16.0),
-                // name textformfield
                 TextFormField(
                   controller: _nameController,
                   onSaved: (newValue) {
                     ref.read(provider).formData["name"] = newValue;
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'İsim',
-                    hintText: 'İsim',
+                  decoration: InputDecoration(
+                    labelText: LocaleKeys.register_name_label.tr(),
+                    hintText: LocaleKeys.register_name_hint.tr(),
                   ),
                 ),
-
                 const SizedBox(height: 32.0),
                 ElevatedButton(
                   onPressed: () {
@@ -104,7 +103,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       ref.read(provider).register();
                     }
                   },
-                  child: const Text('Kayıt Ol'),
+                  child: Text(LocaleKeys.register_register_button.tr()),
                 ),
               ],
             )),
