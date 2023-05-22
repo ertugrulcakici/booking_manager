@@ -200,9 +200,7 @@ class _HomeViewState extends ConsumerState<HomeView>
 
   Widget _content() {
     if (ref.watch(provider).activeBusiness!.branches.isEmpty) {
-      return CustomErrorWidget(
-          errorMessage: LocaleKeys.home_no_branches_found.tr(),
-          onPressed: ref.read(provider).getHomeData);
+      return Center(child: Text(LocaleKeys.home_no_branches_found.tr()));
     }
     return Column(
       children: [

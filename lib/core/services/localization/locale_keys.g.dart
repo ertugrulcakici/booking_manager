@@ -1,6 +1,8 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+// ignore_for_file: constant_identifier_names
+
+abstract class LocaleKeys {
   static const app_name = 'app_name';
   static const ok = 'ok';
   static const cancel = 'cancel';
@@ -19,8 +21,10 @@ abstract class  LocaleKeys {
   static const auth_service_user_disabled = 'auth_service.user_disabled';
   static const auth_service_unknown_error = 'auth_service.unknown_error';
   static const auth_service_logout_success = 'auth_service.logout_success';
-  static const auth_service_email_already_in_use = 'auth_service.email_already_in_use';
-  static const auth_service_operation_not_allowed = 'auth_service.operation_not_allowed';
+  static const auth_service_email_already_in_use =
+      'auth_service.email_already_in_use';
+  static const auth_service_operation_not_allowed =
+      'auth_service.operation_not_allowed';
   static const auth_service_weak_password = 'auth_service.weak_password';
   static const auth_service = 'auth_service';
   static const branch_title_create = 'branch.title_create';
@@ -37,7 +41,8 @@ abstract class  LocaleKeys {
   static const branch = 'branch';
   static const branches_title = 'branches.title';
   static const branches_no_branches = 'branches.no_branches';
-  static const branches_delete_branch_content = 'branches.delete_branch_content';
+  static const branches_delete_branch_content =
+      'branches.delete_branch_content';
   static const branches_delete_branch_title = 'branches.delete_branch_title';
   static const branches_create_branch = 'branches.create_branch';
   static const branches_deleted = 'branches.deleted';
@@ -46,20 +51,28 @@ abstract class  LocaleKeys {
   static const branches_branch_created = 'branches.branch_created';
   static const branches = 'branches';
   static const create_business_title = 'create_business.title';
-  static const create_business_business_name_label = 'create_business.business_name_label';
-  static const create_business_business_name_hint = 'create_business.business_name_hint';
-  static const create_business_business_name_empty = 'create_business.business_name_empty';
+  static const create_business_business_name_label =
+      'create_business.business_name_label';
+  static const create_business_business_name_hint =
+      'create_business.business_name_hint';
+  static const create_business_business_name_empty =
+      'create_business.business_name_empty';
   static const create_business = 'create_business';
   static const defaults_title = 'defaults.title';
   static const defaults = 'defaults';
   static const expanse_categories_title = 'expanse_categories.title';
-  static const expanse_categories_create_expanse_category = 'expanse_categories.create_expanse_category';
-  static const expanse_categories_category_name_label = 'expanse_categories.category_name_label';
-  static const expanse_categories_delete_expanse_category_content = 'expanse_categories.delete_expanse_category_content';
-  static const expanse_categories_delete_expanse_category_title = 'expanse_categories.delete_expanse_category_title';
+  static const expanse_categories_create_expanse_category =
+      'expanse_categories.create_expanse_category';
+  static const expanse_categories_category_name_label =
+      'expanse_categories.category_name_label';
+  static const expanse_categories_delete_expanse_category_content =
+      'expanse_categories.delete_expanse_category_content';
+  static const expanse_categories_delete_expanse_category_title =
+      'expanse_categories.delete_expanse_category_title';
   static const expanse_categories_deleted = 'expanse_categories.deleted';
   static const expanse_categories = 'expanse_categories';
-  static const expanses_delete_expanse_content = 'expanses.delete_expanse_content';
+  static const expanses_delete_expanse_content =
+      'expanses.delete_expanse_content';
   static const expanses_delete_expanse_title = 'expanses.delete_expanse_title';
   static const expanses_expanse_category = 'expanses.expanse_category';
   static const expanses_expanse_amount = 'expanses.expanse_amount';
@@ -72,22 +85,31 @@ abstract class  LocaleKeys {
   static const invitations_all_invitations = 'invitations.all_invitations';
   static const invitations_for_who = 'invitations.for_who';
   static const invitations_no_invitations = 'invitations.no_invitations';
-  static const invitations_copied_to_clipboard = 'invitations.copied_to_clipboard';
+  static const invitations_copied_to_clipboard =
+      'invitations.copied_to_clipboard';
   static const invitations_for_whom = 'invitations.for_whom';
   static const invitations_invitation_code = 'invitations.invitation_code';
   static const invitations_created_at = 'invitations.created_at';
   static const invitations_is_used = 'invitations.is_used';
   static const invitations_used_date = 'invitations.used_date';
-  static const invitations_delete_invitation_content = 'invitations.delete_invitation_content';
-  static const invitations_delete_invitation_title = 'invitations.delete_invitation_title';
-  static const invitations_invitation_created = 'invitations.invitation_created';
-  static const invitations_invitation_could_not_be_created = 'invitations.invitation_could_not_be_created';
-  static const invitations_invitation_deleted = 'invitations.invitation_deleted';
-  static const invitations_invitation_could_not_be_deleted = 'invitations.invitation_could_not_be_deleted';
+  static const invitations_delete_invitation_content =
+      'invitations.delete_invitation_content';
+  static const invitations_delete_invitation_title =
+      'invitations.delete_invitation_title';
+  static const invitations_invitation_created =
+      'invitations.invitation_created';
+  static const invitations_invitation_could_not_be_created =
+      'invitations.invitation_could_not_be_created';
+  static const invitations_invitation_deleted =
+      'invitations.invitation_deleted';
+  static const invitations_invitation_could_not_be_deleted =
+      'invitations.invitation_could_not_be_deleted';
   static const invitations = 'invitations';
   static const session_history_no_sessions = 'session_history.no_sessions';
-  static const session_history_session_deleted = 'session_history.session_deleted';
-  static const session_history_session_updated = 'session_history.session_updated';
+  static const session_history_session_deleted =
+      'session_history.session_deleted';
+  static const session_history_session_updated =
+      'session_history.session_updated';
   static const session_history_time = 'session_history.time';
   static const session_history_by = 'session_history.by';
   static const session_history_branch = 'session_history.branch';
@@ -107,12 +129,14 @@ abstract class  LocaleKeys {
   static const workers_delete_worker_content = 'workers.delete_worker_content';
   static const workers_delete_worker_title = 'workers.delete_worker_title';
   static const workers_user_deleted = 'workers.user_deleted';
-  static const workers_user_could_not_be_deleted = 'workers.user_could_not_be_deleted';
+  static const workers_user_could_not_be_deleted =
+      'workers.user_could_not_be_deleted';
   static const workers = 'workers';
   static const forgot_password_title = 'forgot_password.title';
   static const forgot_password_email_label = 'forgot_password.email_label';
   static const forgot_password_reset_button = 'forgot_password.reset_button';
-  static const forgot_password_reset_success_message = 'forgot_password.reset_success_message';
+  static const forgot_password_reset_success_message =
+      'forgot_password.reset_success_message';
   static const forgot_password = 'forgot_password';
   static const login_username_label = 'login.username_label';
   static const login_username_hint = 'login.username_hint';
@@ -140,13 +164,16 @@ abstract class  LocaleKeys {
   static const add_expanse_title = 'add_expanse.title';
   static const add_expanse_amount_label = 'add_expanse.amount_label';
   static const add_expanse_amount_hint = 'add_expanse.amount_hint';
-  static const add_expanse_amount_error_message = 'add_expanse.amount_error_message';
+  static const add_expanse_amount_error_message =
+      'add_expanse.amount_error_message';
   static const add_expanse_category_label = 'add_expanse.category_label';
   static const add_expanse_category_hint = 'add_expanse.category_hint';
-  static const add_expanse_category_error_message = 'add_expanse.category_error_message';
+  static const add_expanse_category_error_message =
+      'add_expanse.category_error_message';
   static const add_expanse_note_label = 'add_expanse.note_label';
   static const add_expanse_note_hint = 'add_expanse.note_hint';
-  static const add_expanse_added_successfully = 'add_expanse.added_successfully';
+  static const add_expanse_added_successfully =
+      'add_expanse.added_successfully';
   static const add_expanse = 'add_expanse';
   static const home_add_expanse = 'home.add_expanse';
   static const home_no_branches_found = 'home.no_branches_found';
@@ -172,7 +199,8 @@ abstract class  LocaleKeys {
   static const session_name_hint = 'session.name_hint';
   static const session_person_count_label = 'session.person_count_label';
   static const session_person_count_hint = 'session.person_count_hint';
-  static const session_person_count_error_message = 'session.person_count_error_message';
+  static const session_person_count_error_message =
+      'session.person_count_error_message';
   static const session_phone_label = 'session.phone_label';
   static const session_phone_hint = 'session.phone_hint';
   static const session_note_label = 'session.note_label';
@@ -182,9 +210,12 @@ abstract class  LocaleKeys {
   static const session_extra_error_message = 'session.extra_error_message';
   static const session_discount_label = 'session.discount_label';
   static const session_discount_hint = 'session.discount_hint';
-  static const session_discount_error_message = 'session.discount_error_message';
-  static const session_update_session_popup_title = 'session.update_session_popup_title';
-  static const session_update_session_popup_content = 'session.update_session_popup_content';
+  static const session_discount_error_message =
+      'session.discount_error_message';
+  static const session_update_session_popup_title =
+      'session.update_session_popup_title';
+  static const session_update_session_popup_content =
+      'session.update_session_popup_content';
   static const session_added_successfully = 'session.added_successfully';
   static const session_updated_successfully = 'session.updated_successfully';
   static const session_deleted_successfully = 'session.deleted_successfully';
@@ -197,13 +228,15 @@ abstract class  LocaleKeys {
   static const account_setup_title = 'account_setup.title';
   static const account_setup_business_owner = 'account_setup.business_owner';
   static const account_setup_worker = 'account_setup.worker';
-  static const account_setup_invitation_code_label = 'account_setup.invitation_code_label';
-  static const account_setup_invitation_code_hint = 'account_setup.invitation_code_hint';
+  static const account_setup_invitation_code_label =
+      'account_setup.invitation_code_label';
+  static const account_setup_invitation_code_hint =
+      'account_setup.invitation_code_hint';
   static const account_setup_next_step_hint = 'account_setup.next_step_hint';
   static const account_setup_logout_button = 'account_setup.logout_button';
   static const account_setup_invalid_code = 'account_setup.invalid_code';
-  static const account_setup_joined_successfully = 'account_setup.joined_successfully';
+  static const account_setup_joined_successfully =
+      'account_setup.joined_successfully';
   static const account_setup = 'account_setup';
   static const profile = 'profile';
-
 }
