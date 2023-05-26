@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bookingmanager/core/extensions/datetime_extensions.dart';
 import 'package:bookingmanager/core/services/auth/auth_service.dart';
@@ -107,12 +108,13 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
       for (var branch in activeBusiness!.branches) {
         final sessionsDocs = await FirebaseFirestore.instance
             .collection("sessions")
-            .where("relatedBranchUid", isEqualTo: branch.uid)
-            .where("date", isEqualTo: _selectedDate)
+            .where("branchUid", isEqualTo: branch.uid)
+            .where("date", isEqualTo: _selectedDate.formattedDate)
             .get();
         sessions[branch.uid] = sessionsDocs.docs
             .map((e) => SessionModel.fromJson(e.data()))
             .toList();
+        log(sessions[branch.uid].toString());
       }
     } catch (e) {
       rethrow;
@@ -146,6 +148,10 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
         // await _getBranchesData();
         await activeBusiness!.fetchUsers();
         await activeBusiness!.fetchBranches();
+        // create branch uid in session map if not exists
+        for (var element in activeBusiness!.branches) {
+          sessions[element.uid] ??= [];
+        }
         _setupTab();
         if (!completer.isCompleted) {
           completer.complete();
@@ -200,8 +206,10 @@ class HomeNotifier extends ChangeNotifier with LoadingNotifierMixin {
         .listen((event) {
       isLoading = true;
       for (var docChange in event.docChanges) {
+        final data = docChange.doc.data();
+        log(data.toString());
         SessionModel snapshotSession =
-            SessionModel.fromJson(docChange.doc.data()!);
+            SessionModel.fromJson(data as Map<String, dynamic>);
         if (docChange.type == DocumentChangeType.removed) {
           sessions[snapshotSession.branchUid]!
               .removeWhere((element) => element.uid == snapshotSession.uid);

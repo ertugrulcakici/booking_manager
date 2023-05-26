@@ -10,9 +10,9 @@ class SessionModel extends HiveObject {
   @HiveField(1)
   int personCount;
   @HiveField(2)
-  double extra;
+  num extra;
   @HiveField(3)
-  double discount;
+  num discount;
   @HiveField(4)
   String name;
   @HiveField(5)
@@ -24,9 +24,9 @@ class SessionModel extends HiveObject {
   @HiveField(8)
   String uid;
   @HiveField(9)
-  double subTotal;
+  num subTotal;
   @HiveField(10)
-  double total;
+  num total;
   @HiveField(11)
   String date;
   @HiveField(12)

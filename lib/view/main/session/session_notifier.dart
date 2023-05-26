@@ -58,7 +58,7 @@ class SessionNotifier extends ChangeNotifier {
           .collection("sessions")
           .doc(newSessionModel.uid);
 
-      await newDocRef.set(formData);
+      await newDocRef.set(newSessionModel.toJson());
 
       if (sessionModel != null &&
           !sessionModel!.isAllFieldsSame(newSessionModel)) {
