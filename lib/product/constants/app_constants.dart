@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 abstract class AppConstants {
-  static const String appVersionName = "1.1.0";
-  static const int appVersionCode = 2;
+  static const String appVersionName = "1.1.1";
+  static const int appVersionCode = 3;
 
   static const double designWidth = 360;
   static const double designHeight = 800;
